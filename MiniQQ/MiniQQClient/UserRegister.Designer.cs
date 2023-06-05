@@ -28,18 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
+            name = new Label();
+            password = new Label();
+            textBox1 = new TextBox();
+            textBox2 = new TextBox();
+            textBox3 = new TextBox();
+            label1 = new Label();
+            reg_button = new Button();
             SuspendLayout();
+            // 
+            // name
+            // 
+            name.AutoSize = true;
+            name.BackColor = Color.Transparent;
+            name.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            name.ForeColor = SystemColors.HighlightText;
+            name.Location = new Point(63, 65);
+            name.Name = "name";
+            name.Size = new Size(44, 17);
+            name.TabIndex = 0;
+            name.Text = "用户名";
+            // 
+            // password
+            // 
+            password.AutoSize = true;
+            password.BackColor = Color.Transparent;
+            password.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            password.ForeColor = SystemColors.HighlightText;
+            password.Location = new Point(63, 104);
+            password.Name = "password";
+            password.Size = new Size(32, 17);
+            password.TabIndex = 1;
+            password.Text = "密码";
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.White;
+            textBox1.Location = new Point(132, 62);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(209, 23);
+            textBox1.TabIndex = 2;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(132, 101);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(208, 23);
+            textBox2.TabIndex = 3;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(132, 139);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(208, 23);
+            textBox3.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = SystemColors.HighlightText;
+            label1.Location = new Point(63, 145);
+            label1.Name = "label1";
+            label1.Size = new Size(56, 17);
+            label1.TabIndex = 4;
+            label1.Text = "确认密码";
+            // 
+            // reg_button
+            // 
+            reg_button.BackColor = SystemColors.Info;
+            reg_button.Location = new Point(88, 182);
+            reg_button.Name = "reg_button";
+            reg_button.Size = new Size(239, 35);
+            reg_button.TabIndex = 6;
+            reg_button.Text = "注册";
+            reg_button.UseVisualStyleBackColor = false;
+            reg_button.Click += button1_Click;
             // 
             // UserRegister
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(637, 356);
+            BackgroundImage = Properties.Resources.login_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(406, 254);
+            Controls.Add(reg_button);
+            Controls.Add(textBox3);
+            Controls.Add(label1);
+            Controls.Add(textBox2);
+            Controls.Add(textBox1);
+            Controls.Add(password);
+            Controls.Add(name);
+            DoubleBuffered = true;
             Name = "UserRegister";
             Text = "用户注册";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label name;
+        private Label password;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private TextBox textBox3;
+        private Label label1;
+        private Button reg_button;
     }
 }
