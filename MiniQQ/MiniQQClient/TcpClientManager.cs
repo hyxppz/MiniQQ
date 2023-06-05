@@ -1,6 +1,13 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+<<<<<<< HEAD
+using System.Threading.Tasks;
+using MiniQQLib;
+using System.Collections;
+
+=======
+>>>>>>> 64035fd39461bac6550572f1189dc7cc2e44704d
 
 namespace MiniQQClient
 {
@@ -9,6 +16,7 @@ namespace MiniQQClient
         private IPAddress ipAddress = null;
         private TcpClient _client = null;
         private NetworkStream _stream = null;
+        byte[] sendBuf = new byte[1024 * 1024 * 2];
 
         enum ConnectionStatus
         {
@@ -21,6 +29,8 @@ namespace MiniQQClient
 
         public Action<string> ReciviMsgAction { get; set; }
         public Action<string> ExceptionMsgAction { get; set; }
+
+        
         public TcpClientManager(string ip)
         {
             ipAddress = IPAddress.Parse(ip);
@@ -53,6 +63,19 @@ namespace MiniQQClient
                 ExceptionMsgAction.Invoke(ex.ToString());
             }
 
+        }
+
+        public bool SendMesg(object o,int msgType)
+        {
+            string msgContent = MyTools.Serialize<object>(o);
+            byte[] b1 = MyTools.intToBytes(msgContent.Length); 
+            byte[] b2 = MyTools.intToBytes(msgType);
+            byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
+            Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
+            Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
+            Buffer.BlockCopy(b3, 0, sendBuf, 8, msgContent.Length);
+            _stream.Write(sendBuf, 0, 8+ msgContent.Length);
+            return true;
         }
 
         public void ConnectThread()

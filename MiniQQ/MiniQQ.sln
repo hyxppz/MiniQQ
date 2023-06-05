@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniQQServer", "MiniQQ\MiniQQServer.csproj", "{954AAB3E-4EBD-4B8B-8927-F428C9B6B0B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniQQServer", "MiniQQ\MiniQQServer.csproj", "{954AAB3E-4EBD-4B8B-8927-F428C9B6B0B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniQQClient", "MiniQQClient\MiniQQClient.csproj", "{DFF1AB9F-3375-47FF-8640-16DD267B22E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniQQClient", "MiniQQClient\MiniQQClient.csproj", "{DFF1AB9F-3375-47FF-8640-16DD267B22E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniQQLib", "MiniQQLib\MiniQQLib.csproj", "{A5AF5B38-57D0-441D-B20D-2BB516863F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DFF1AB9F-3375-47FF-8640-16DD267B22E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFF1AB9F-3375-47FF-8640-16DD267B22E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFF1AB9F-3375-47FF-8640-16DD267B22E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5AF5B38-57D0-441D-B20D-2BB516863F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5AF5B38-57D0-441D-B20D-2BB516863F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5AF5B38-57D0-441D-B20D-2BB516863F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5AF5B38-57D0-441D-B20D-2BB516863F6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

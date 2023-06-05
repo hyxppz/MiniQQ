@@ -1,0 +1,6 @@
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\bin\Debug\MiniQQLib.dll
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\bin\Debug\MiniQQLib.pdb
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\obj\Debug\MiniQQLib.csproj.AssemblyReference.cache
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\obj\Debug\MiniQQLib.csproj.CoreCompileInputs.cache
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\obj\Debug\MiniQQLib.dll
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQLib\obj\Debug\MiniQQLib.pdb
