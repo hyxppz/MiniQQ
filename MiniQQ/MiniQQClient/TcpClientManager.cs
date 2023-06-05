@@ -1,13 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-<<<<<<< HEAD
+
 using System.Threading.Tasks;
 using MiniQQLib;
 using System.Collections;
-
-=======
->>>>>>> 64035fd39461bac6550572f1189dc7cc2e44704d
 
 namespace MiniQQClient
 {
