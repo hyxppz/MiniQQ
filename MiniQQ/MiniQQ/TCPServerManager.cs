@@ -141,22 +141,41 @@ namespace MiniQQServer
                         int msgTotalLength = MyTools.bytesToInt(b1);
                         length = socketClient.Receive(b2, 4, SocketFlags.None); // 接收数据，并返回数据的长度；
                         int msgType = MyTools.bytesToInt(b2);
+                        MsgType t = (MsgType)msgType;
                         length = socketClient.Receive(arrMsgRec, msgType, SocketFlags.None); // 接收数据，并返回数据的长度；
                         //判断是否为空
                         string rectstr = System.Text.Encoding.UTF8.GetString(arrMsgRec);
                         if (rectstr != string.Empty)
                         {
-                            foreach (var entry in dic_ClientSocket)
+                            switch (t) 
                             {
-                                if (entry.Key != ipAddr)
-                                {
-                                    byte[] byteArray = Encoding.UTF8.GetBytes("[" + entry.Key + "]");
-                                    Array.Copy(byteArray, sendBuf, byteArray.Length);
-                                    Buffer.BlockCopy(arrMsgRec, 0, sendBuf, byteArray.Length, length);
-                                    SendData(entry.Key, sendBuf, byteArray.Length + length);
-                                }
-
+                                case MsgType.MSG_TYPE_REGISTER_REQ:
+                                    break;
+                                case MsgType.MSG_TYPE_LOGIN_REQ:
+                                    break;
+                                case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
+                                    break;
+                                case MsgType.MSG_TYPE_MOD_NAME_REQ:
+                                    break;
+                                case MsgType.MSG_TYPE_MSG:
+                                    break;
+                                case MsgType.MSG_TYPE_QUERY_REQ:
+                                    break;
                             }
+
+
+
+                            //foreach (var entry in dic_ClientSocket)
+                            //{
+                            //    if (entry.Key != ipAddr)
+                            //    {
+                            //        byte[] byteArray = Encoding.UTF8.GetBytes("[" + entry.Key + "]");
+                            //        Array.Copy(byteArray, sendBuf, byteArray.Length);
+                            //        Buffer.BlockCopy(arrMsgRec, 0, sendBuf, byteArray.Length, length);
+                            //        SendData(entry.Key, sendBuf, byteArray.Length + length);
+                            //    }
+
+                            //}
                         }
 
 
