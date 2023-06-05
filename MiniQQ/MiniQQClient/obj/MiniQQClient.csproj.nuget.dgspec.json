@@ -31,7 +31,11 @@
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj": {
+                "projectPath": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -64,6 +68,21 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj": {
+      "restore": {
+        "projectUniqueName": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj",
+        "projectName": "MiniQQLib",
+        "projectPath": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
       }
     }
   }

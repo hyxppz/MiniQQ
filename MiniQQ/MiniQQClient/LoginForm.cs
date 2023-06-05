@@ -19,7 +19,7 @@ namespace MiniQQClient
 
         private void Loginbutton_Click(object sender, EventArgs e)
         {
-            // todu登录成功
+            // todo登录成功
             if (true)
             {
                 this.DialogResult = DialogResult.OK;

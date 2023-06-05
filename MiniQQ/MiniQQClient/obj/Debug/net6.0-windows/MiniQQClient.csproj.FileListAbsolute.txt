@@ -17,3 +17,6 @@ E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\obj\Debug\net6.0-
 E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\obj\Debug\net6.0-windows\MiniQQClient.genruntimeconfig.cache
 E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\obj\Debug\net6.0-windows\ref\MiniQQClient.dll
 E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\obj\Debug\net6.0-windows\MiniQQClient.UserRegister.resources
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\bin\Debug\net6.0-windows\MiniQQLib.dll
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\bin\Debug\net6.0-windows\MiniQQLib.pdb
+E:\学校\研一下\一级实践\大作业\MiniQQ\MiniQQClient\obj\Debug\net6.0-windows\MiniQQClient.csproj.CopyComplete

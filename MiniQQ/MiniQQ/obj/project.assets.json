@@ -1,11 +1,29 @@
 {
   "version": 3,
   "targets": {
-    "net6.0-windows7.0": {}
+    "net6.0-windows7.0": {
+      "MiniQQLib/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/MiniQQLib.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MiniQQLib.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MiniQQLib/1.0.0": {
+      "type": "project",
+      "path": "../MiniQQLib/MiniQQLib.csproj",
+      "msbuildProject": "../MiniQQLib/MiniQQLib.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0-windows7.0": []
+    "net6.0-windows7.0": [
+      "MiniQQLib >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\haoyuxing\\.nuget\\packages\\": {},
@@ -38,7 +56,11 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj": {
+              "projectPath": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

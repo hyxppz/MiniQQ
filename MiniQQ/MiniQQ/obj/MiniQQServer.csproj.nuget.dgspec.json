@@ -4,6 +4,21 @@
     "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQ\\MiniQQServer.csproj": {}
   },
   "projects": {
+    "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj": {
+      "restore": {
+        "projectUniqueName": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj",
+        "projectName": "MiniQQLib",
+        "projectPath": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
     "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQ\\MiniQQServer.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -31,7 +46,11 @@
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj": {
+                "projectPath": "E:\\学校\\研一下\\一级实践\\大作业\\MiniQQ\\MiniQQLib\\MiniQQLib.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

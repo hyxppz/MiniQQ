@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MiniQQLib;
 
 namespace MiniQQServer
 {
@@ -18,6 +19,9 @@ namespace MiniQQServer
         public Action<string> ExceptionMsgAction { get; set; }
 
         public Action<int, string> UpdateClient { get; set; }
+
+        public Action<MiniQQLib.LoginReq> RecLoginReqAction { get; set; }
+
         /// <summary>
         /// 启动服务
         /// </summary>
@@ -122,6 +126,8 @@ namespace MiniQQServer
             bool Flag_Receive = true;
             string ipAddr = socketClient.RemoteEndPoint.ToString();
             byte[] sendBuf = new byte[10240];
+            byte[] b1 = new byte[4];
+            byte[] b2 = new byte[4];
 
             while (Flag_Receive)
             {
@@ -133,7 +139,11 @@ namespace MiniQQServer
                     int length = -1;
                     try
                     {
-                        length = socketClient.Receive(arrMsgRec); // 接收数据，并返回数据的长度；
+                        length = socketClient.Receive(b1, 4,SocketFlags.None); // 接收数据，并返回数据的长度；
+                        int msgTotalLength = MyTools.bytesToInt(b1);
+                        length = socketClient.Receive(b2, 4, SocketFlags.None); // 接收数据，并返回数据的长度；
+                        int msgType = MyTools.bytesToInt(b2);
+                        length = socketClient.Receive(arrMsgRec, msgType, SocketFlags.None); // 接收数据，并返回数据的长度；
                         //判断是否为空
                         string rectstr = System.Text.Encoding.UTF8.GetString(arrMsgRec);
                         if (rectstr != string.Empty)
