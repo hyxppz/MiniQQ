@@ -99,7 +99,7 @@
             // reg_button
             // 
             reg_button.BackColor = SystemColors.Info;
-            reg_button.Location = new Point(88, 167);
+            reg_button.Location = new Point(81, 167);
             reg_button.Name = "reg_button";
             reg_button.Size = new Size(239, 35);
             reg_button.TabIndex = 6;
@@ -123,7 +123,12 @@
             Controls.Add(name);
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new Size(422, 293);
+            MinimizeBox = false;
+            MinimumSize = new Size(422, 293);
             Name = "UserRegister";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "用户注册";
             ResumeLayout(false);
             PerformLayout();
