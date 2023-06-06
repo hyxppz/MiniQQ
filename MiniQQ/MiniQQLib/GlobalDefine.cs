@@ -33,6 +33,7 @@ namespace MiniQQLib
     {
         public string Username { get; set; }
         public bool Result { get; set; }
+        public string ErrorMsg { get; set; }
 
     }
     [Serializable]
@@ -46,7 +47,7 @@ namespace MiniQQLib
     {
         public string Username { get; set; }
         public bool Result { get; set; }
-        
+        public string ErrorMsg { get; set; }
     }
     [Serializable]
     public class AddFriendReq
@@ -60,7 +61,7 @@ namespace MiniQQLib
         public string Username { get; set; }
         public string FriendName { get; set; }
         public bool Result { get; set; }
-
+        public string ErrorMsg { get; set; }
     }
     [Serializable]
     public class ModNameReq
@@ -76,6 +77,7 @@ namespace MiniQQLib
         public string FriendName { get; set; }
         public string FriendNickName { get; set; }
         public bool Result { get; set; }
+        public string ErrorMsg { get; set; }
     }
     [Serializable]
     public class MSGMSG
@@ -104,7 +106,7 @@ namespace MiniQQLib
         }
         public string Username { get; set; }
         public bool Result { get; set; }
-
+        public string ErrorMsg { get; set; }
         public List<FriendInfo> FriendInfos { get; set; }
     }
 

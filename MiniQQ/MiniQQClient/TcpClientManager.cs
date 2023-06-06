@@ -175,22 +175,22 @@ namespace MiniQQClient
                         {
                             switch (t)
                             {
-                                case MsgType.MSG_TYPE_REGISTER_REQ:
+                                case MsgType.MSG_TYPE_REGISTER_RSP:
                                     RegisterRsp o = new RegisterRsp();
                                     o = MyTools.Desrialize<RegisterRsp>(o, message);
                                     RecRegisterRspAction.Invoke(o);
                                     break;
-                                case MsgType.MSG_TYPE_LOGIN_REQ:
+                                case MsgType.MSG_TYPE_LOGIN_RSP:
                                     LoginRsp o1 = new LoginRsp();
                                     o1 = MyTools.Desrialize<LoginRsp>(o1, message);
                                     RecLoginRspAction.Invoke(o1);
                                     break;
-                                case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
+                                case MsgType.MSG_TYPE_ADD_FRIEND_RSP:
                                     AddFriendRsp o2 = new AddFriendRsp();
                                     o2 = MyTools.Desrialize<AddFriendRsp>(o2, message);
                                     RecAddFriendRspAction.Invoke(o2);
                                     break;
-                                case MsgType.MSG_TYPE_MOD_NAME_REQ:
+                                case MsgType.MSG_TYPE_MOD_NAME_RSP:
                                     ModNameRsp o3 = new ModNameRsp();
                                     o3 = MyTools.Desrialize<ModNameRsp>(o3, message);
                                     RecModNameRspAction.Invoke(o3);
@@ -200,7 +200,7 @@ namespace MiniQQClient
                                     o4 = MyTools.Desrialize<MSGMSG>(o4, message);
                                     RecMSGMSGAction.Invoke(o4);
                                     break;
-                                case MsgType.MSG_TYPE_QUERY_REQ:
+                                case MsgType.MSG_TYPE_QUERY_RSP:
                                     QueryRsp o5 = new QueryRsp();
                                     o5 = MyTools.Desrialize<QueryRsp>(o5, message);
                                     RecQueryRspAction.Invoke(o5);

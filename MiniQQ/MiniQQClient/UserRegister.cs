@@ -4,9 +4,14 @@ namespace MiniQQClient
 {
     public partial class UserRegister : Form
     {
+        public void RecRegisterRspAct(RegisterRsp rsp)
+        {
+
+        }
         public UserRegister()
         {
             InitializeComponent();
+            TcpClientManager.Instance.RecRegisterRspAction = RecRegisterRspAct;
         }
 
         private void button1_Click(object sender, EventArgs e)

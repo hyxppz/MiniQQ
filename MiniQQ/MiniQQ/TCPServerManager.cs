@@ -36,7 +36,7 @@ namespace MiniQQServer
 
         public Action<int, string> UpdateClient { get; set; }
 
-        public Action<MiniQQLib.RegisterReq> RecRegisterReqAction { get; set; }
+        public Action<MiniQQLib.RegisterReq,string> RecRegisterReqAction { get; set; }
         public Action<MiniQQLib.LoginReq> RecLoginReqAction { get; set; }
         public Action<MiniQQLib.AddFriendReq> RecAddFriendReqAction { get; set; }
         public Action<MiniQQLib.ModNameReq> RecModNameReqAction { get; set; }
@@ -183,7 +183,7 @@ namespace MiniQQServer
                                 case MsgType.MSG_TYPE_REGISTER_REQ:
                                     RegisterReq o = new RegisterReq();
                                     o = MyTools.Desrialize<RegisterReq>(o, rectstr);
-                                    RecRegisterReqAction.Invoke(o);
+                                    RecRegisterReqAction.Invoke(o,ipAddr);
                                     break;
                                 case MsgType.MSG_TYPE_LOGIN_REQ:
                                     LoginReq o1 = new LoginReq();

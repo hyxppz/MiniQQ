@@ -20,13 +20,18 @@ namespace MiniQQ
 
         }
 
-        public void UserRegister(RegisterReq registerReq)
+        public void UserRegister(RegisterReq registerReq,string ip)
         {
-            if (getUserByName(registerReq.Username)!=null)
-            {
+            //if (getUserByName(registerReq.Username)!=null)
+            //{
 
-            }
-           
+            //}
+            RegisterRsp registerRsp = new RegisterRsp();
+            registerRsp.Username = registerReq.Username;
+            registerRsp.Result = true;
+
+
+            TCPServerManager.Instance.SendObjectByIP(ip, registerRsp, MsgType.MSG_TYPE_REGISTER_RSP);
         }
 
         public Userinfo? getUserByName(string Username)
