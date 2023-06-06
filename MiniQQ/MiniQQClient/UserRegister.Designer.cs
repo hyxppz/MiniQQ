@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserRegister));
             name = new Label();
             password = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            Username = new TextBox();
+            Pwd = new TextBox();
+            PwdConfirm = new TextBox();
             label1 = new Label();
             reg_button = new Button();
             SuspendLayout();
@@ -62,27 +62,27 @@
             password.TabIndex = 1;
             password.Text = "密码";
             // 
-            // textBox1
+            // Username
             // 
-            textBox1.BackColor = Color.White;
-            textBox1.Location = new Point(132, 47);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(209, 23);
-            textBox1.TabIndex = 2;
+            Username.BackColor = Color.White;
+            Username.Location = new Point(132, 47);
+            Username.Name = "Username";
+            Username.Size = new Size(209, 23);
+            Username.TabIndex = 2;
             // 
-            // textBox2
+            // Pwd
             // 
-            textBox2.Location = new Point(132, 86);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(208, 23);
-            textBox2.TabIndex = 3;
+            Pwd.Location = new Point(132, 86);
+            Pwd.Name = "Pwd";
+            Pwd.Size = new Size(208, 23);
+            Pwd.TabIndex = 3;
             // 
-            // textBox3
+            // PwdConfirm
             // 
-            textBox3.Location = new Point(132, 124);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(208, 23);
-            textBox3.TabIndex = 5;
+            PwdConfirm.Location = new Point(132, 124);
+            PwdConfirm.Name = "PwdConfirm";
+            PwdConfirm.Size = new Size(208, 23);
+            PwdConfirm.TabIndex = 5;
             // 
             // label1
             // 
@@ -115,10 +115,10 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(406, 254);
             Controls.Add(reg_button);
-            Controls.Add(textBox3);
+            Controls.Add(PwdConfirm);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(Pwd);
+            Controls.Add(Username);
             Controls.Add(password);
             Controls.Add(name);
             DoubleBuffered = true;
@@ -138,9 +138,9 @@
 
         private Label name;
         private Label password;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox Username;
+        private TextBox Pwd;
+        private TextBox PwdConfirm;
         private Label label1;
         private Button reg_button;
     }

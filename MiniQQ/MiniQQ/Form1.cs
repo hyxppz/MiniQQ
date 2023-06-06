@@ -22,7 +22,23 @@ namespace MiniQQ
 
         public void UserRegister(RegisterReq registerReq)
         {
+            if (getUserByName(registerReq.Username)!=null)
+            {
 
+            }
+           
+        }
+
+        public Userinfo? getUserByName(string Username)
+        {
+            List<Userinfo> allUsers = getAllUsers();
+            return allUsers.Find((u)=>u.Username==Username);
+        }
+
+        public List<Userinfo> getAllUsers()
+        {
+            UserInfomations info = (UserInfomations)MyTools.DeserializeFromFile("1.data");
+            return info.MyUserInfos;
         }
 
         public void test()
