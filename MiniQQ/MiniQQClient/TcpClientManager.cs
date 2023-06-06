@@ -24,10 +24,16 @@ namespace MiniQQClient
         private ConnectionStatus _connectionState = ConnectionStatus.init;
 
 
-        public Action<string> ReciviMsgAction { get; set; }
         public Action<string> ExceptionMsgAction { get; set; }
 
-        
+        public Action<MiniQQLib.RegisterRsp> RecRegisterRspAction { get; set; }
+        public Action<MiniQQLib.LoginRsp> RecLoginRspAction { get; set; }
+        public Action<MiniQQLib.AddFriendRsp> RecAddFriendRspAction { get; set; }
+        public Action<MiniQQLib.ModNameRsp> RecModNameRspAction { get; set; }
+        public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
+        public Action<MiniQQLib.QueryRsp> RecQueryRspAction { get; set; }
+
+
         public TcpClientManager(string ip)
         {
             ipAddress = IPAddress.Parse(ip);
@@ -120,15 +126,57 @@ namespace MiniQQClient
 
                     if (_connectionState == ConnectionStatus.connected)
                     {
-                        byte[] data = new byte[1024];
-                        int bytesRead = _stream.Read(data, 0, data.Length);
+                        byte[] data = new byte[1024*1024*2];
+                        int r1 = _stream.Read(data, 0, 4);
+                        int msgTotalLength = MyTools.bytesToInt(data);
+                        int r2 = _stream.Read(data, 4, 4);
+                        int msgType = MyTools.bytesToInt(data,4);
+                        MsgType t = (MsgType)msgType;
+                        int r3 = _stream.Read(data, 8, msgTotalLength);
                         //if(bytesRead == 0)
                         //{
                         //    _connectionState = ConnectionStatus.disconnect;
                         //    ExceptionMsgAction.Invoke("发生错误，断开连接");
                         //}
-                        string message = Encoding.UTF8.GetString(data, 0, bytesRead);
-                        ReciviMsgAction.Invoke(message);
+                        string message = Encoding.UTF8.GetString(data, 8, msgTotalLength);
+                        if (message != string.Empty)
+                        {
+                            switch (t)
+                            {
+                                case MsgType.MSG_TYPE_REGISTER_REQ:
+                                    RegisterRsp o = new RegisterRsp();
+                                    o = MyTools.Desrialize<RegisterRsp>(o, message);
+                                    RecRegisterRspAction.Invoke(o);
+                                    break;
+                                case MsgType.MSG_TYPE_LOGIN_REQ:
+                                    LoginRsp o1 = new LoginRsp();
+                                    o1 = MyTools.Desrialize<LoginRsp>(o1, message);
+                                    RecLoginRspAction.Invoke(o1);
+                                    break;
+                                case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
+                                    AddFriendRsp o2 = new AddFriendRsp();
+                                    o2 = MyTools.Desrialize<AddFriendRsp>(o2, message);
+                                    RecAddFriendRspAction.Invoke(o2);
+                                    break;
+                                case MsgType.MSG_TYPE_MOD_NAME_REQ:
+                                    ModNameRsp o3 = new ModNameRsp();
+                                    o3 = MyTools.Desrialize<ModNameRsp>(o3, message);
+                                    RecModNameRspAction.Invoke(o3);
+                                    break;
+                                case MsgType.MSG_TYPE_MSG:
+                                    MSGMSG o4 = new MSGMSG();
+                                    o4 = MyTools.Desrialize<MSGMSG>(o4, message);
+                                    RecMSGMSGAction.Invoke(o4);
+                                    break;
+                                case MsgType.MSG_TYPE_QUERY_REQ:
+                                    QueryRsp o5 = new QueryRsp();
+                                    o5 = MyTools.Desrialize<QueryRsp>(o5, message);
+                                    RecQueryRspAction.Invoke(o5);
+                                    break;
+                            }
+
+                          
+                        }
                     }
 
                     Thread.Sleep(100);

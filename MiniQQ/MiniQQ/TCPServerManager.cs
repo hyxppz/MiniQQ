@@ -18,7 +18,12 @@ namespace MiniQQServer
 
         public Action<int, string> UpdateClient { get; set; }
 
+        public Action<MiniQQLib.RegisterReq> RecRegisterReqAction { get; set; }
         public Action<MiniQQLib.LoginReq> RecLoginReqAction { get; set; }
+        public Action<MiniQQLib.AddFriendReq> RecAddFriendReqAction { get; set; }
+        public Action<MiniQQLib.ModNameReq> RecModNameReqAction { get; set; }
+        public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
+        public Action<MiniQQLib.QueryReq> RecQueryReqAction { get; set; }
 
         /// <summary>
         /// 启动服务
@@ -150,32 +155,40 @@ namespace MiniQQServer
                             switch (t) 
                             {
                                 case MsgType.MSG_TYPE_REGISTER_REQ:
+                                    RegisterReq o = new RegisterReq();
+                                    o = MyTools.Desrialize<RegisterReq>(o, rectstr);
+                                    RecRegisterReqAction.Invoke(o);
                                     break;
                                 case MsgType.MSG_TYPE_LOGIN_REQ:
+                                    LoginReq o1 = new LoginReq();
+                                    o1 = MyTools.Desrialize<LoginReq>(o1, rectstr);
+                                    RecLoginReqAction.Invoke(o1);
                                     break;
                                 case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
+                                    AddFriendReq o2 = new AddFriendReq();
+                                    o2 = MyTools.Desrialize<AddFriendReq>(o2, rectstr);
+                                    RecAddFriendReqAction.Invoke(o2);
                                     break;
                                 case MsgType.MSG_TYPE_MOD_NAME_REQ:
+                                    ModNameReq o3 = new ModNameReq();
+                                    o3 = MyTools.Desrialize<ModNameReq>(o3, rectstr);
+                                    RecModNameReqAction.Invoke(o3);
                                     break;
                                 case MsgType.MSG_TYPE_MSG:
+                                    MSGMSG o4 = new MSGMSG();
+                                    o4 = MyTools.Desrialize<MSGMSG>(o4, rectstr);
+                                    RecMSGMSGAction.Invoke(o4);
                                     break;
                                 case MsgType.MSG_TYPE_QUERY_REQ:
+                                    QueryReq o5 = new QueryReq();
+                                    o5 = MyTools.Desrialize<QueryReq>(o5, rectstr);
+                                    RecQueryReqAction.Invoke(o5);
                                     break;
                             }
 
 
 
-                            //foreach (var entry in dic_ClientSocket)
-                            //{
-                            //    if (entry.Key != ipAddr)
-                            //    {
-                            //        byte[] byteArray = Encoding.UTF8.GetBytes("[" + entry.Key + "]");
-                            //        Array.Copy(byteArray, sendBuf, byteArray.Length);
-                            //        Buffer.BlockCopy(arrMsgRec, 0, sendBuf, byteArray.Length, length);
-                            //        SendData(entry.Key, sendBuf, byteArray.Length + length);
-                            //    }
-
-                            //}
+                           
                         }
 
 
