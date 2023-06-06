@@ -108,4 +108,30 @@ namespace MiniQQLib
         public List<FriendInfo> FriendInfos { get; set; }
     }
 
+
+
+    [Serializable]
+    public class Userinfo
+    {
+        public Userinfo()
+        {
+            FriendInfos = new List<FriendInfo>();
+        }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public List<FriendInfo> FriendInfos { get; set; }
+    }
+
+    [Serializable]
+    public class UserInfomations
+    {
+        public UserInfomations()
+        {
+            MyUserInfos = new List<Userinfo>();
+        }
+        public List<Userinfo> MyUserInfos { get; set; }
+    }
+
+
+
 }

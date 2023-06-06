@@ -12,7 +12,7 @@ namespace MiniQQLib
     public class MyTools
     {
         //序列化
-        public void Serialize2Fill(string fileName,object obj)
+        public static void Serialize2Fill(string fileName,object obj)
         {
             FileStream fileStream = new FileStream(fileName, FileMode.OpenOrCreate);
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -21,7 +21,7 @@ namespace MiniQQLib
         }
 
         //反序列化
-        public object DeserializeFromFile(string fileName)
+        public static object DeserializeFromFile(string fileName)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(fileName, FileMode.Open);
