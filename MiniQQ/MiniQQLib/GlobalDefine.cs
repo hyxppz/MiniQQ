@@ -21,35 +21,40 @@ namespace MiniQQLib
         MSG_TYPE_QUERY_RSP,//信息查询返回
     }
 
-   
 
+    [Serializable]
     public class RegisterReq
     {
         public string Username { get; set; }
         public string Password { get; set; }
     }
+    [Serializable]
     public class RegisterRsp
     {
         public string Username { get; set; }
         public bool Result { get; set; }
 
     }
+    [Serializable]
     public class LoginReq
     {
         public string Username { get; set; }
         public string Password { get; set; }
     }
+    [Serializable]
     public class LoginRsp
     {
         public string Username { get; set; }
         public bool Result { get; set; }
         
     }
+    [Serializable]
     public class AddFriendReq
     {
         public string Username { get; set; }
         public string FriendName { get; set; }
     }
+    [Serializable]
     public class AddFriendRsp
     {
         public string Username { get; set; }
@@ -57,12 +62,14 @@ namespace MiniQQLib
         public bool Result { get; set; }
 
     }
+    [Serializable]
     public class ModNameReq
     {
         public string Username { get; set; }
         public string FriendName { get; set; }
         public string FriendNickName { get; set; }
     }
+    [Serializable]
     public class ModNameRsp
     {
         public string Username { get; set; }
@@ -70,23 +77,25 @@ namespace MiniQQLib
         public string FriendNickName { get; set; }
         public bool Result { get; set; }
     }
+    [Serializable]
     public class MSGMSG
     {
         public string SrcUsername { get; set; }
         public string DesUsername { get; set; }
         public string Msg { get; set; }
     }
+    [Serializable]
     public class QueryReq
     {
         public string Username { get; set; }
     }
-
+    [Serializable]
     public class FriendInfo
     {
         public string FriendName { get; set; }
         public string FriendNickName { get; set; }
     }
-
+    [Serializable]
     public class QueryRsp
     {
         public QueryRsp() 

@@ -4,9 +4,15 @@ namespace MiniQQClient
 {
     public partial class Form1 : Form
     {
+
+        public void ExceptionAction(string str)
+        {
+
+        }
         public Form1()
         {
             InitializeComponent();
+            TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
             createFriend("榜一大哥", true);
             createFriend("榜二大哥", false);
             createFriend("张三", true);
@@ -79,6 +85,9 @@ namespace MiniQQClient
         {
             createFriend("大哥", true);
         }
+
+
+
         // sizuo end
     }
 }

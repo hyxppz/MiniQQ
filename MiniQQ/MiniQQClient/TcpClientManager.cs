@@ -10,6 +10,23 @@ namespace MiniQQClient
 {
     internal class TcpClientManager
     {
+        private static TcpClientManager instance;
+
+        private TcpClientManager() { }
+
+        public static TcpClientManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TcpClientManager();
+                }
+                return instance;
+            }
+        }
+
+
         private IPAddress ipAddress = null;
         private TcpClient _client = null;
         private NetworkStream _stream = null;
@@ -34,7 +51,7 @@ namespace MiniQQClient
         public Action<MiniQQLib.QueryRsp> RecQueryRspAction { get; set; }
 
 
-        public TcpClientManager(string ip)
+        public void  Init(string ip)
         {
             ipAddress = IPAddress.Parse(ip);
             _connectionState = ConnectionStatus.init;
@@ -63,16 +80,20 @@ namespace MiniQQClient
             catch (Exception ex)
             {
                 _connectionState = ConnectionStatus.disconnect;
-                ExceptionMsgAction.Invoke(ex.ToString());
+                if (ExceptionMsgAction!=null)
+                {
+                    ExceptionMsgAction.Invoke(ex.ToString());
+                }
+                
             }
 
         }
 
-        public bool SendMesg(object o,int msgType)
+        public bool SendMesg(object o, MsgType msgType)
         {
             string msgContent = MyTools.Serialize<object>(o);
             byte[] b1 = MyTools.intToBytes(msgContent.Length); 
-            byte[] b2 = MyTools.intToBytes(msgType);
+            byte[] b2 = MyTools.intToBytes((int)msgType);
             byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
             Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
             Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
@@ -89,14 +110,22 @@ namespace MiniQQClient
                 {
                     try
                     {
-                        ExceptionMsgAction.Invoke("重连中");
+                        if (ExceptionMsgAction != null)
+                        {
+                            ExceptionMsgAction.Invoke("重连中");
+                        }
+                      
                         _client = new TcpClient();
                         _client.Connect(ipAddress, 19521);
                     }
                     catch (Exception ex)
                     {
                         _connectionState = ConnectionStatus.disconnect;
-                        ExceptionMsgAction.Invoke("发生错误，断开连接");
+                        if (ExceptionMsgAction != null)
+                        {
+                            ExceptionMsgAction.Invoke("发生错误，断开连接");
+                        }
+                       
                         Thread.Sleep(3000);
                         continue;
                     }
@@ -104,8 +133,11 @@ namespace MiniQQClient
                     _stream = _client.GetStream();
 
 
-
-                    ExceptionMsgAction.Invoke("服务器已连接");
+                    if (ExceptionMsgAction != null)
+                    {
+                        ExceptionMsgAction.Invoke("服务器已连接");
+                    }
+                    
                 }
 
                 Thread.Sleep(1000);
@@ -185,7 +217,11 @@ namespace MiniQQClient
                 catch (Exception ex)
                 {
                     _connectionState = ConnectionStatus.disconnect;
-                    ExceptionMsgAction.Invoke("发生错误，断开连接");
+                    if (ExceptionMsgAction != null)
+                    {
+                        ExceptionMsgAction.Invoke("发生错误，断开连接");
+                    }
+                  
                     Thread.Sleep(3000);
                 }
             }

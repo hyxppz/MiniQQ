@@ -9,6 +9,23 @@ namespace MiniQQServer
 {
     internal class TCPServerManager
     {
+
+        private static TCPServerManager instance;
+
+        private TCPServerManager() { }
+
+        public static TCPServerManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TCPServerManager();
+                }
+                return instance;
+            }
+        }
+
         private Socket ServerSocket = null;//服务端  
         public Dictionary<string, MySession> dic_ClientSocket = new Dictionary<string, MySession>();//tcp客户端字典
         private Dictionary<string, Thread> dic_ClientThread = new Dictionary<string, Thread>();//线程字典,每新增一个连接就添加一条线程
@@ -101,7 +118,11 @@ namespace MiniQQServer
                     // 将与客户端连接的 套接字 对象添加到集合中；
                     string str_EndPoint = sokConnection.RemoteEndPoint.ToString();
                     MySession myTcpClient = new MySession() { TcpSocket = sokConnection };
-                    ExceptionMsgAction.Invoke(str_EndPoint + " 已连接");
+                    if(ExceptionMsgAction !=null)
+                    {
+                        ExceptionMsgAction.Invoke(str_EndPoint + " 已连接");
+                    }
+                  
                     //创建线程接收数据
                     Thread th_ReceiveData = new Thread(ReceiveData);
                     th_ReceiveData.IsBackground = true;
@@ -109,7 +130,11 @@ namespace MiniQQServer
                     //把线程及客户连接加入字典
                     dic_ClientThread.Add(str_EndPoint, th_ReceiveData);
                     dic_ClientSocket.Add(str_EndPoint, myTcpClient);
-                    UpdateClient.Invoke(0, str_EndPoint);
+                    if (UpdateClient!=null)
+                    {
+                        UpdateClient.Invoke(0, str_EndPoint);
+                    }
+                    
                 }
                 catch
                 {
@@ -147,9 +172,9 @@ namespace MiniQQServer
                         length = socketClient.Receive(b2, 4, SocketFlags.None); // 接收数据，并返回数据的长度；
                         int msgType = MyTools.bytesToInt(b2);
                         MsgType t = (MsgType)msgType;
-                        length = socketClient.Receive(arrMsgRec, msgType, SocketFlags.None); // 接收数据，并返回数据的长度；
+                        length = socketClient.Receive(arrMsgRec, msgTotalLength, SocketFlags.None); // 接收数据，并返回数据的长度；
                         //判断是否为空
-                        string rectstr = System.Text.Encoding.UTF8.GetString(arrMsgRec);
+                        string rectstr = System.Text.Encoding.UTF8.GetString(arrMsgRec,0,length);
                         if (rectstr != string.Empty)
                         {
                             switch (t) 
@@ -202,10 +227,18 @@ namespace MiniQQServer
                         dic_ClientSocket.Remove(keystr);//删除客户端字典中该socket
                         dic_ClientThread[keystr].Interrupt();//关闭线程
                         dic_ClientThread.Remove(keystr);//删除字典中该线程
-                        UpdateClient.Invoke(1, keystr);
+                        if(UpdateClient!=null)
+                        {
+                            UpdateClient.Invoke(1, keystr);
+                        }
+                        
                         tcpClient = null;
                         socketClient = null;
-                        ExceptionMsgAction.Invoke(keystr + " 断开连接");
+                        if (ExceptionMsgAction != null)
+                        {
+                            ExceptionMsgAction.Invoke(keystr + " 断开连接");
+                        }
+                            
                         break;
                     }
                     byte[] buf = new byte[length];
