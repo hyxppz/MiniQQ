@@ -48,7 +48,7 @@ namespace MiniQQ
 
 
             Userinfo u2 = new Userinfo();
-            u2.Username = "username";
+            u2.Username = "username"; 
             u2.Password = "password";
 
             FriendInfo f3 = new FriendInfo();

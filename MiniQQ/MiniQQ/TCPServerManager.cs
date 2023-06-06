@@ -29,8 +29,9 @@ namespace MiniQQServer
         private Socket ServerSocket = null;//服务端  
         public Dictionary<string, MySession> dic_ClientSocket = new Dictionary<string, MySession>();//tcp客户端字典
         private Dictionary<string, Thread> dic_ClientThread = new Dictionary<string, Thread>();//线程字典,每新增一个连接就添加一条线程
+        private Dictionary<string, string> dic_UserIP = new Dictionary<string, string>();//username-IP 对应字典,每新增一个连接就添加一条线程
         private bool Flag_Listen = true;//监听客户端连接的标志
-
+        byte[] sendBuf = new byte[1024 * 1024 * 2];
         public Action<string> ExceptionMsgAction { get; set; }
 
         public Action<int, string> UpdateClient { get; set; }
@@ -188,6 +189,8 @@ namespace MiniQQServer
                                     LoginReq o1 = new LoginReq();
                                     o1 = MyTools.Desrialize<LoginReq>(o1, rectstr);
                                     RecLoginReqAction.Invoke(o1);
+                                    //TODO                                
+                                    dic_UserIP[o1.Username] = ipAddr;
                                     break;
                                 case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
                                     AddFriendReq o2 = new AddFriendReq();
@@ -261,32 +264,70 @@ namespace MiniQQServer
         /// <param name="_endPoint">客户端套接字</param>
         /// <param name="_buf">发送的数组</param>
         /// <returns></returns>
-        public bool SendData(string _endPoint, byte[] _buf)
+        //public bool SendData(string _endPoint, byte[] _buf)
+        //{
+        //    MySession myT = new MySession();
+        //    if (dic_ClientSocket.TryGetValue(_endPoint, out myT))
+        //    {
+        //        myT.Send(_buf);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //public bool SendData(string _endPoint, byte[] _buf, int length)
+        //{
+        //    MySession myT = new MySession();
+        //    if (dic_ClientSocket.TryGetValue(_endPoint, out myT))
+        //    {
+        //        myT.Send(_buf, length);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public bool SendObjectByUserName(string userName,object o, MsgType msgType)
         {
-            MySession myT = new MySession();
-            if (dic_ClientSocket.TryGetValue(_endPoint, out myT))
+            if (dic_UserIP.ContainsKey(userName))
             {
-                myT.Send(_buf);
+                string ip = dic_UserIP[userName];
+                SendObjectByIP(ip, o, msgType);
                 return true;
             }
             else
             {
                 return false;
             }
+           
         }
 
-        public bool SendData(string _endPoint, byte[] _buf, int length)
+        public bool SendObjectByIP(string Ip,object o, MsgType msgType)
         {
             MySession myT = new MySession();
-            if (dic_ClientSocket.TryGetValue(_endPoint, out myT))
+            if (dic_ClientSocket.TryGetValue(Ip, out myT))
             {
-                myT.Send(_buf, length);
+                string msgContent = MyTools.Serialize<object>(o);
+                byte[] b1 = MyTools.intToBytes(msgContent.Length);
+                byte[] b2 = MyTools.intToBytes((int)msgType);
+                byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
+                Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
+                Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
+                Buffer.BlockCopy(b3, 0, sendBuf, 8, msgContent.Length);
+                myT.Send(sendBuf, 8 + msgContent.Length);
                 return true;
             }
             else
             {
                 return false;
             }
+            
+            return true;
         }
     }
 
