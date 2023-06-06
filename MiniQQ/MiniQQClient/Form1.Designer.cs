@@ -30,16 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             friendList = new Panel();
+            label2 = new Label();
             friendExample = new Panel();
             friendExample_name = new Label();
             friendExample_online = new PictureBox();
             label1 = new Label();
             addFriendIcon = new Label();
-            panel1 = new Panel();
-            label2 = new Label();
+            placeholder_panel = new Panel();
+            chat_panel = new Panel();
             friendList.SuspendLayout();
             friendExample.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).BeginInit();
+            placeholder_panel.SuspendLayout();
             SuspendLayout();
             // 
             // friendList
@@ -53,6 +55,19 @@
             friendList.Name = "friendList";
             friendList.Size = new Size(189, 592);
             friendList.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point);
+            label2.ForeColor = Color.Yellow;
+            label2.Location = new Point(8, 286);
+            label2.Name = "label2";
+            label2.Size = new Size(164, 26);
+            label2.TabIndex = 0;
+            label2.Text = "还没好友？去添加";
+            label2.Visible = false;
+            label2.Click += label2_Click;
             // 
             // friendExample
             // 
@@ -116,28 +131,26 @@
             addFriendIcon.Text = "+";
             addFriendIcon.Click += addFriendIcon_Click;
             // 
-            // panel1
+            // placeholder_panel
             // 
-            panel1.BackColor = Color.Transparent;
-            panel1.BackgroundImage = Properties.Resources.dog;
-            panel1.BackgroundImageLayout = ImageLayout.Zoom;
-            panel1.Location = new Point(269, 22);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(774, 592);
-            panel1.TabIndex = 5;
+            placeholder_panel.BackColor = Color.Transparent;
+            placeholder_panel.BackgroundImage = Properties.Resources.dog;
+            placeholder_panel.BackgroundImageLayout = ImageLayout.Zoom;
+            placeholder_panel.Controls.Add(chat_panel);
+            placeholder_panel.Location = new Point(269, 22);
+            placeholder_panel.Name = "placeholder_panel";
+            placeholder_panel.Size = new Size(774, 592);
+            placeholder_panel.TabIndex = 5;
             // 
-            // label2
+            // chat_panel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point);
-            label2.ForeColor = Color.Yellow;
-            label2.Location = new Point(8, 286);
-            label2.Name = "label2";
-            label2.Size = new Size(164, 26);
-            label2.TabIndex = 0;
-            label2.Text = "还没好友？去添加";
-            label2.Visible = false;
-            label2.Click += label2_Click;
+            chat_panel.BackColor = Color.Transparent;
+            chat_panel.BackgroundImage = Properties.Resources.dog;
+            chat_panel.BackgroundImageLayout = ImageLayout.Zoom;
+            chat_panel.Location = new Point(0, 0);
+            chat_panel.Name = "chat_panel";
+            chat_panel.Size = new Size(774, 592);
+            chat_panel.TabIndex = 6;
             // 
             // Form1
             // 
@@ -146,7 +159,7 @@
             BackgroundImage = Properties.Resources.login_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1094, 632);
-            Controls.Add(panel1);
+            Controls.Add(placeholder_panel);
             Controls.Add(addFriendIcon);
             Controls.Add(friendExample);
             Controls.Add(label1);
@@ -163,6 +176,7 @@
             friendExample.ResumeLayout(false);
             friendExample.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).EndInit();
+            placeholder_panel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -176,6 +190,7 @@
         private PictureBox friendExample_online;
         private Label addFriendIcon;
         private Label label2;
-        private Panel panel1;
+        private Panel placeholder_panel;
+        private Panel chat_panel;
     }
 }

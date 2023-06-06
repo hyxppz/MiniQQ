@@ -31,7 +31,7 @@ namespace MiniQQClient
             createFriend("李六", FriendStatus.OFFLINE);
             createFriend("刘思佐", FriendStatus.OFFLINE);
             createFriend("郝宇星");
-            createFriend("张学渊",FriendStatus.WAIT);
+            createFriend("张学渊", FriendStatus.WAIT);
 
         }
 
@@ -44,11 +44,11 @@ namespace MiniQQClient
             ONLINE = 0,//在线
             OFFLINE,//离线
             WAIT,//请求添加好友
-            
+
         }
         List<Panel> friends = new List<Panel>();
 
-        void createFriend(string name, FriendStatus status=FriendStatus.ONLINE)
+        void createFriend(string name, FriendStatus status = FriendStatus.ONLINE)
         {
             int length = friends.Count;
             Panel panel = new Panel();
@@ -57,7 +57,7 @@ namespace MiniQQClient
             panel.Controls.Add(pictureBox);
             panel.Controls.Add(label);
             panel.Cursor = Cursors.Hand;
-            
+
             // 
             // friendExample
             // 
@@ -78,7 +78,7 @@ namespace MiniQQClient
             label.Size = new Size(37, 19);
             label.TabIndex = 1;
             label.Text = name;
-           
+
             // 
             // friendExample_online
             // 
@@ -89,26 +89,27 @@ namespace MiniQQClient
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.TabIndex = 2;
             pictureBox.TabStop = false;
-           
-            if (status==FriendStatus.ONLINE)
+
+            if (status == FriendStatus.ONLINE)
             {
                 pictureBox.Image = Properties.Resources.dog;
                 panel.Click += openChat;
                 pictureBox.Click += openChat;
                 label.Click += openChat;
             }
-            else if(status == FriendStatus.OFFLINE)
+            else if (status == FriendStatus.OFFLINE)
             {
                 pictureBox.Image = Properties.Resources.dog_opacity;
                 panel.Click += openChat;
                 pictureBox.Click += openChat;
                 label.Click += openChat;
             }
-            else if(status==FriendStatus.WAIT)
+            else if (status == FriendStatus.WAIT)
             {
-                EventHandler waitClick = (object? sender, EventArgs e) => {
-                    var confirmResult = MessageBox.Show("是否通过"+name+"的好友请求？",
-                                   name+"请求添加您为好友",
+                EventHandler waitClick = (object? sender, EventArgs e) =>
+                {
+                    var confirmResult = MessageBox.Show("是否通过" + name + "的好友请求？",
+                                   name + "请求添加您为好友",
                                    MessageBoxButtons.YesNo);
                     if (confirmResult == DialogResult.Yes)
                     {
@@ -129,21 +130,23 @@ namespace MiniQQClient
             friends.Add(panel);
         }
 
-      
+
 
         private void openChat(object? sender, EventArgs e)
         {
-           
+
         }
 
         private void addFriendIcon_Click(object sender, EventArgs e)
         {
-            
+            FriendForm form = new FriendForm();
+            form.ShowDialog();
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-          
+            FriendForm form = new FriendForm();
+            form.ShowDialog();
         }
 
 
