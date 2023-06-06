@@ -44,11 +44,11 @@
             name.BackColor = Color.Transparent;
             name.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             name.ForeColor = SystemColors.HighlightText;
-            name.Location = new Point(63, 50);
+            name.Location = new Point(44, 50);
             name.Name = "name";
-            name.Size = new Size(44, 17);
+            name.Size = new Size(82, 17);
             name.TabIndex = 0;
-            name.Text = "用户名";
+            name.Text = "DD号/用户名";
             // 
             // password
             // 
@@ -56,7 +56,7 @@
             password.BackColor = Color.Transparent;
             password.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             password.ForeColor = SystemColors.HighlightText;
-            password.Location = new Point(63, 89);
+            password.Location = new Point(44, 89);
             password.Name = "password";
             password.Size = new Size(32, 17);
             password.TabIndex = 1;
@@ -90,7 +90,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.HighlightText;
-            label1.Location = new Point(63, 130);
+            label1.Location = new Point(44, 127);
             label1.Name = "label1";
             label1.Size = new Size(56, 17);
             label1.TabIndex = 4;
@@ -99,7 +99,7 @@
             // reg_button
             // 
             reg_button.BackColor = SystemColors.Info;
-            reg_button.Location = new Point(81, 167);
+            reg_button.Location = new Point(78, 166);
             reg_button.Name = "reg_button";
             reg_button.Size = new Size(239, 35);
             reg_button.TabIndex = 6;

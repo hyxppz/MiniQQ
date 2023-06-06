@@ -35,6 +35,9 @@
             friendExample_online = new PictureBox();
             label1 = new Label();
             addFriendIcon = new Label();
+            panel1 = new Panel();
+            label2 = new Label();
+            friendList.SuspendLayout();
             friendExample.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).BeginInit();
             SuspendLayout();
@@ -44,6 +47,7 @@
             friendList.AutoScroll = true;
             friendList.BackColor = Color.Transparent;
             friendList.BorderStyle = BorderStyle.Fixed3D;
+            friendList.Controls.Add(label2);
             friendList.Location = new Point(24, 22);
             friendList.Margin = new Padding(111);
             friendList.Name = "friendList";
@@ -112,6 +116,29 @@
             addFriendIcon.Text = "+";
             addFriendIcon.Click += addFriendIcon_Click;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.BackgroundImage = Properties.Resources.dog;
+            panel1.BackgroundImageLayout = ImageLayout.Zoom;
+            panel1.Location = new Point(269, 22);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(774, 592);
+            panel1.TabIndex = 5;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point);
+            label2.ForeColor = Color.Yellow;
+            label2.Location = new Point(8, 286);
+            label2.Name = "label2";
+            label2.Size = new Size(164, 26);
+            label2.TabIndex = 0;
+            label2.Text = "还没好友？去添加";
+            label2.Visible = false;
+            label2.Click += label2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -119,15 +146,20 @@
             BackgroundImage = Properties.Resources.login_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1094, 632);
+            Controls.Add(panel1);
             Controls.Add(addFriendIcon);
             Controls.Add(friendExample);
             Controls.Add(label1);
             Controls.Add(friendList);
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DD";
+            friendList.ResumeLayout(false);
+            friendList.PerformLayout();
             friendExample.ResumeLayout(false);
             friendExample.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).EndInit();
@@ -143,5 +175,7 @@
         private Label friendExample_name;
         private PictureBox friendExample_online;
         private Label addFriendIcon;
+        private Label label2;
+        private Panel panel1;
     }
 }
