@@ -28,43 +28,120 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            friendList = new Panel();
+            friendExample = new Panel();
+            friendExample_name = new Label();
+            friendExample_online = new PictureBox();
+            label1 = new Label();
+            addFriendIcon = new Label();
+            friendExample.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)friendExample_online).BeginInit();
             SuspendLayout();
             // 
-            // groupBox1
+            // friendList
             // 
-            groupBox1.Location = new Point(25, 25);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(162, 408);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "好友列表";
+            friendList.AutoScroll = true;
+            friendList.BackColor = Color.Transparent;
+            friendList.BorderStyle = BorderStyle.Fixed3D;
+            friendList.Location = new Point(24, 22);
+            friendList.Margin = new Padding(111);
+            friendList.Name = "friendList";
+            friendList.Size = new Size(189, 592);
+            friendList.TabIndex = 0;
             // 
-            // groupBox2
+            // friendExample
             // 
-            groupBox2.Location = new Point(260, 47);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(468, 391);
-            groupBox2.TabIndex = 1;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "groupBox2";
+            friendExample.BackColor = Color.Transparent;
+            friendExample.Controls.Add(friendExample_name);
+            friendExample.Controls.Add(friendExample_online);
+            friendExample.Location = new Point(34, 622);
+            friendExample.Name = "friendExample";
+            friendExample.Size = new Size(179, 22);
+            friendExample.TabIndex = 3;
+            friendExample.Visible = false;
+            // 
+            // friendExample_name
+            // 
+            friendExample_name.AutoSize = true;
+            friendExample_name.BackColor = Color.Transparent;
+            friendExample_name.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            friendExample_name.ForeColor = Color.White;
+            friendExample_name.Location = new Point(29, 0);
+            friendExample_name.Name = "friendExample_name";
+            friendExample_name.Size = new Size(37, 19);
+            friendExample_name.TabIndex = 1;
+            friendExample_name.Text = "张三";
+            // 
+            // friendExample_online
+            // 
+            friendExample_online.BackColor = Color.Transparent;
+            friendExample_online.Image = Properties.Resources.dog;
+            friendExample_online.Location = new Point(0, 0);
+            friendExample_online.Name = "friendExample_online";
+            friendExample_online.Size = new Size(23, 21);
+            friendExample_online.SizeMode = PictureBoxSizeMode.Zoom;
+            friendExample_online.TabIndex = 2;
+            friendExample_online.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Bottom;
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(39, 11);
+            label1.Name = "label1";
+            label1.Size = new Size(37, 19);
+            label1.TabIndex = 0;
+            label1.Text = "好友";
+            // 
+            // addFriendIcon
+            // 
+            addFriendIcon.Anchor = AnchorStyles.Bottom;
+            addFriendIcon.AutoSize = true;
+            addFriendIcon.BackColor = Color.Transparent;
+            addFriendIcon.Cursor = Cursors.Hand;
+            addFriendIcon.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            addFriendIcon.ForeColor = Color.White;
+            addFriendIcon.Location = new Point(164, 7);
+            addFriendIcon.Name = "addFriendIcon";
+            addFriendIcon.Size = new Size(27, 27);
+            addFriendIcon.TabIndex = 4;
+            addFriendIcon.Text = "+";
+            addFriendIcon.Click += addFriendIcon_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(730, 450);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
+            BackgroundImage = Properties.Resources.login_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1094, 632);
+            Controls.Add(addFriendIcon);
+            Controls.Add(friendExample);
+            Controls.Add(label1);
+            Controls.Add(friendList);
+            DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "MiniQQClient";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "DD";
+            friendExample.ResumeLayout(false);
+            friendExample.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)friendExample_online).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private GroupBox groupBox1;
-        private GroupBox groupBox2;
+        private Panel friendList;
+        private Label label1;
+        private Panel friendExample;
+        private Label friendExample_name;
+        private PictureBox friendExample_online;
+        private Label addFriendIcon;
     }
 }
