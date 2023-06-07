@@ -25,7 +25,9 @@ namespace MiniQQLib
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(fileName, FileMode.Open);
+           
             object obj = binaryFormatter.Deserialize(fileStream);
+            fileStream.Close();
             return obj;
         }
 
