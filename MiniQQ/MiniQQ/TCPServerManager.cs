@@ -38,7 +38,7 @@ namespace MiniQQServer
 
         public Action<MiniQQLib.RegisterReq,string> RecRegisterReqAction { get; set; }
         public Action<MiniQQLib.LoginReq> RecLoginReqAction { get; set; }
-        public Action<MiniQQLib.AddFriendReq> RecAddFriendReqAction { get; set; }
+        public Action<MiniQQLib.AddFriendReq,string> RecAddFriendReqAction { get; set; }
         public Action<MiniQQLib.ModNameReq> RecModNameReqAction { get; set; }
         public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
         public Action<MiniQQLib.QueryReq> RecQueryReqAction { get; set; }
@@ -195,7 +195,7 @@ namespace MiniQQServer
                                 case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
                                     AddFriendReq o2 = new AddFriendReq();
                                     o2 = MyTools.Desrialize<AddFriendReq>(o2, rectstr);
-                                    RecAddFriendReqAction.Invoke(o2);
+                                    RecAddFriendReqAction.Invoke(o2, ipAddr);
                                     break;
                                 case MsgType.MSG_TYPE_MOD_NAME_REQ:
                                     ModNameReq o3 = new ModNameReq();

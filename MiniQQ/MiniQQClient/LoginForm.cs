@@ -1,4 +1,6 @@
-﻿namespace MiniQQClient
+﻿using MiniQQLib;
+
+namespace MiniQQClient
 {
     public partial class LoginForm : Form
     {
@@ -13,8 +15,20 @@
             // todo登录成功
             if (true)
             {
-                this.DialogResult = DialogResult.OK;
-
+               this.DialogResult = DialogResult.OK;
+                Userinfo userinfo = new Userinfo();
+                userinfo.Username = "1";
+                userinfo.Password = "1";
+                List<FriendInfo> friendInfos = new List<FriendInfo>();
+                userinfo.FriendInfos = friendInfos;
+                FriendInfo f1=new FriendInfo();
+                f1.FriendName= "榜一大哥";
+                FriendInfo f2 = new FriendInfo();
+                f2.FriendName = "小天才";
+                f2.FriendNickName = "大笨蛋";
+                friendInfos.Add(f1);
+                friendInfos.Add(f2);
+                MyTools.setUserinfo(userinfo);
             }
         }
 

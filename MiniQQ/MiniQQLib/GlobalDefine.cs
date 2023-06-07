@@ -59,7 +59,7 @@ namespace MiniQQLib
     public class AddFriendRsp
     {
         public string Username { get; set; }
-        public string FriendName { get; set; }
+        public Userinfo userinfo { get; set; }
         public bool Result { get; set; }
         public string ErrorMsg { get; set; }
     }
@@ -91,11 +91,22 @@ namespace MiniQQLib
     {
         public string Username { get; set; }
     }
+
+    public enum FriendStatus
+    {
+        ONLINE = 0,//在线
+        OFFLINE,//离线
+        WAIT,//请求添加好友
+        NOREPLY,//无回应
+
+    }
+
     [Serializable]
     public class FriendInfo
     {
         public string FriendName { get; set; }
         public string FriendNickName { get; set; }
+        public FriendStatus Status { get; set; }
     }
     [Serializable]
     public class QueryRsp

@@ -6,7 +6,15 @@ namespace MiniQQClient
     {
         public void RecRegisterRspAct(RegisterRsp rsp)
         {
-
+            if (rsp.Result)
+            {
+                MessageBox.Show(rsp.ErrorMsg);
+                this.DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                MessageBox.Show(rsp.ErrorMsg);
+            }
         }
         public UserRegister()
         {
@@ -16,7 +24,7 @@ namespace MiniQQClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Username.Text.Trim()=="")
+            if (Username.Text.Trim() == "")
             {
                 MessageBox.Show("请输入DD号/用户名");
                 return;
@@ -35,7 +43,8 @@ namespace MiniQQClient
             req.Username = Username.Text.Trim();
             req.Password = Pwd.Text.Trim();
             TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_REGISTER_REQ);
-       
+
         }
+
     }
 }

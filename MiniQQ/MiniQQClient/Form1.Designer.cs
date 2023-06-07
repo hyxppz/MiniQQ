@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             friendList = new Panel();
-            label2 = new Label();
+            nofriend = new Label();
             friendExample = new Panel();
             friendExample_name = new Label();
             friendExample_online = new PictureBox();
@@ -49,25 +49,26 @@
             friendList.AutoScroll = true;
             friendList.BackColor = Color.Transparent;
             friendList.BorderStyle = BorderStyle.Fixed3D;
-            friendList.Controls.Add(label2);
+            friendList.Controls.Add(nofriend);
             friendList.Location = new Point(24, 22);
             friendList.Margin = new Padding(111);
             friendList.Name = "friendList";
             friendList.Size = new Size(189, 592);
             friendList.TabIndex = 0;
             // 
-            // label2
+            // nofriend
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point);
-            label2.ForeColor = Color.Yellow;
-            label2.Location = new Point(8, 286);
-            label2.Name = "label2";
-            label2.Size = new Size(164, 26);
-            label2.TabIndex = 0;
-            label2.Text = "还没好友？去添加";
-            label2.Visible = false;
-            label2.Click += label2_Click;
+            nofriend.AutoSize = true;
+            nofriend.Cursor = Cursors.Hand;
+            nofriend.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point);
+            nofriend.ForeColor = Color.Yellow;
+            nofriend.Location = new Point(8, 286);
+            nofriend.Name = "nofriend";
+            nofriend.Size = new Size(164, 26);
+            nofriend.TabIndex = 0;
+            nofriend.Text = "还没好友？去添加";
+            nofriend.Visible = false;
+            nofriend.Click += label2_Click;
             // 
             // friendExample
             // 
@@ -189,7 +190,7 @@
         private Label friendExample_name;
         private PictureBox friendExample_online;
         private Label addFriendIcon;
-        private Label label2;
+        private Label nofriend;
         private Panel placeholder_panel;
         private Panel chat_panel;
     }

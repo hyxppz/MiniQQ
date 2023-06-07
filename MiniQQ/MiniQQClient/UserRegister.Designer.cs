@@ -74,6 +74,7 @@
             // 
             Pwd.Location = new Point(132, 86);
             Pwd.Name = "Pwd";
+            Pwd.PasswordChar = '*';
             Pwd.Size = new Size(208, 23);
             Pwd.TabIndex = 3;
             // 
@@ -81,6 +82,7 @@
             // 
             PwdConfirm.Location = new Point(132, 124);
             PwdConfirm.Name = "PwdConfirm";
+            PwdConfirm.PasswordChar = '*';
             PwdConfirm.Size = new Size(208, 23);
             PwdConfirm.TabIndex = 5;
             // 
