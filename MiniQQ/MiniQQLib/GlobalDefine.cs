@@ -46,7 +46,7 @@ namespace MiniQQLib
     [Serializable]
     public class LoginRsp
     {
-        public string Username { get; set; }
+        public Userinfo User { get; set; }
         public bool Result { get; set; }
         public string ErrorMsg { get; set; }
     }

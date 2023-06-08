@@ -22,9 +22,37 @@ namespace MiniQQ
             
         }
 
-        public void Login(LoginReq loginReq)
+        //zxy
+        public void Login(LoginReq loginReq,string ip)
         {
+            string username = loginReq.Username;
+            string password = loginReq.Password;
 
+
+
+            Userinfo? userinfo = getAllUsers().Find((u) => u.Username== loginReq.Username && u.Password  ==loginReq.Password);
+
+
+            if (userinfo != null)
+            {
+                // 获取好友信息。假设你有一个获取好友信息的方法 GetFriends
+                //List<FriendInfo> friendInfos = GetFriends(username);
+
+                // 发送成功和好友信息
+                LoginRsp loginResponse = new LoginRsp();
+                loginResponse.Result = true;
+                loginResponse.User = userinfo;
+                //loginResponse.FriendInfos = friendInfos;
+                TCPServerManager.Instance.SendObjectByIP(ip, loginResponse, MsgType.MSG_TYPE_LOGIN_RSP);
+            }
+            else
+            {
+                // 发送失败
+                LoginRsp loginResponse = new LoginRsp();
+                loginResponse.Result = false;
+                loginResponse.ErrorMsg = "用户密码不正确";
+                TCPServerManager.Instance.SendObjectByIP(ip, loginResponse, MsgType.MSG_TYPE_LOGIN_RSP);
+            }
         }
 
         public void AddFriend(AddFriendReq addFriendReq, string ip)
