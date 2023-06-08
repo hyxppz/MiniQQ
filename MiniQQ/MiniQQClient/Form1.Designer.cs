@@ -168,7 +168,9 @@
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
+            MaximumSize = new Size(1110, 671);
             MinimizeBox = false;
+            MinimumSize = new Size(1110, 671);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             friendList.ResumeLayout(false);

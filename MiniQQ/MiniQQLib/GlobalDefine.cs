@@ -13,6 +13,7 @@ namespace MiniQQLib
         MSG_TYPE_LOGIN_REQ,//登录请求
         MSG_TYPE_LOGIN_RSP,//登录应答
         MSG_TYPE_ADD_FRIEND_REQ,//添加好友请求
+        MSG_TYPE_REFUSE_REQ,//拒绝好友请求
         MSG_TYPE_ADD_FRIEND_RSP,//添加好友应答
         MSG_TYPE_MOD_NAME_REQ,//修改昵称请求
         MSG_TYPE_MOD_NAME_RSP,//修改昵称应答
@@ -52,6 +53,12 @@ namespace MiniQQLib
     }
     [Serializable]
     public class AddFriendReq
+    {
+        public string Username { get; set; }
+        public string FriendName { get; set; }
+    }
+    [Serializable]
+    public class RefuseReq
     {
         public string Username { get; set; }
         public string FriendName { get; set; }
@@ -141,6 +148,7 @@ namespace MiniQQLib
         }
         public string Username { get; set; }
         public string Password { get; set; }
+        public FriendStatus Status { get; set; }
         public List<FriendInfo> FriendInfos { get; set; }
     }
 

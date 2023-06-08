@@ -16,9 +16,32 @@ namespace MiniQQ
             TCPServerManager.Instance.OpenServer(19521);
             button1.Enabled = false;
             TCPServerManager.Instance.RecRegisterReqAction = UserRegister;
-
             TCPServerManager.Instance.RecAddFriendReqAction = AddFriend;
             TCPServerManager.Instance.RecLoginReqAction = Login;
+            TCPServerManager.Instance.RecRefuseReqAction = Refuse;
+
+
+        }
+
+        public void Refuse(RefuseReq req) {
+            UserInfomations info = getAllUsersInfo();
+            Userinfo? friend = info.MyUserInfos.Find((u) => u.Username == req.FriendName);
+            Userinfo? user = info.MyUserInfos.Find((u) => u.Username == req.Username);
+            if (user!=null)
+            {
+                user.FriendInfos.Remove(user.FriendInfos.Find(f=>f.FriendName==req.FriendName));
+                RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
+                refreshFriendListRsp1.userinfo = user;
+                TCPServerManager.Instance.SendObjectByUserName(user.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
+            }
+            if (friend!=null)
+            {
+                friend.FriendInfos.Remove(friend.FriendInfos.Find(f => f.FriendName == req.Username));
+                RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
+                refreshFriendListRsp1.userinfo = friend;
+                TCPServerManager.Instance.SendObjectByUserName(friend.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
+            }
+            saveUsers(info);
             
         }
 
@@ -83,12 +106,26 @@ namespace MiniQQ
                     TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
                     return;
                 }
-                if (user.FriendInfos.Find(f=>f.FriendName == addFriendReq.FriendName&& f.Status==FriendStatus.WAIT)!=null)
+                FriendInfo? f0 = user.FriendInfos.Find(f => f.FriendName == addFriendReq.FriendName);
+                if (f0 != null && f0.Status==FriendStatus.WAIT)
                 {
+                    // 互相好友列表中修改状态
+                    f0.Status= friend.Status;
+                    FriendInfo? f1 = friend.FriendInfos.Find(f => f.FriendName == user.Username);
+                    if (f1!=null)
+                    {
+                        f1.Status = user.Status;
+                    }
+                    saveUsers(info);
                     addFriendRsp.ErrorMsg = "添加成功，可以开始对话聊天了";
                     addFriendRsp.Result = true;
-                    // todo:推给对方刷新好友列表
+                    addFriendRsp.userinfo = user;
+                    // 推给对方刷新好友列表
+                    RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
+                    refreshFriendListRsp1.userinfo = friend;
+                    TCPServerManager.Instance.SendObjectByUserName(friend.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
                     TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
+
                     return;
                 }
 
@@ -104,7 +141,7 @@ namespace MiniQQ
                 }
                 else
                 {
-                    addFriendRsp.ErrorMsg = "好友已存在";
+                    addFriendRsp.ErrorMsg = "对方已经是您的好友了，快去聊天吧";
                     addFriendRsp.Result = false;
                 }
                 TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
