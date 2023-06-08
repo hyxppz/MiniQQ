@@ -4,23 +4,11 @@ namespace MiniQQClient
 {
     public partial class FriendForm : Form
     {
-        public void RecAddFriendRspAction(AddFriendRsp rsp)
-        {
-            if (rsp.Result)
-            {
-
-                MyTools.setUserinfo(rsp.userinfo);
-                MessageBox.Show(rsp.ErrorMsg);
-            }
-            else
-            {
-                MessageBox.Show(rsp.ErrorMsg);
-            }
-        }
+      
         public FriendForm()
         {
             InitializeComponent();
-            TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
+       
         }
 
         private void button1_Click(object sender, EventArgs e)

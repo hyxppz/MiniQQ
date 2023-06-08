@@ -1,5 +1,6 @@
 using MiniQQLib;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace MiniQQClient
 {
@@ -16,13 +17,40 @@ namespace MiniQQClient
             this.Text = "DD - " + MyTools.getUserinfo().Username;
             TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
             TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
+            TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
             resetFriendsPanel();
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
 
         }
 
 
+        public void RecAddFriendRspAction(AddFriendRsp rsp)
+        {
+            Action delega1 = () =>
+            {
+                if (rsp.Result)
+                {
 
+                    MyTools.setUserinfo(rsp.userinfo);
+                    resetFriendsPanel();
+                    MessageBox.Show(rsp.ErrorMsg);
+                }
+                else
+                {
+                    MessageBox.Show(rsp.ErrorMsg);
+                }
+            };
+            //使用异步多线程更新
+            if (this.InvokeRequired)
+            {
+                //新建一个线程，线程里面调用拉姆达表达式，拉姆达表达式里面使用异步的形式调用委托，委托里面再修改控件的父级
+                new Thread(() => this.Invoke(delega1)).Start();
+            }
+            else
+            {
+                delega1();
+            }
+        }
 
         // sizuo start
         void RefreshfriendList(RefreshFriendListRsp rsp)
@@ -127,11 +155,17 @@ namespace MiniQQClient
                                    MessageBoxButtons.YesNoCancel);
                     if (confirmResult == DialogResult.Yes)
                     {
-                        // If 'Yes', do something here.
+                        AddFriendReq req = new AddFriendReq();
+                        req.Username = MyTools.getUserinfo().Username;
+                        req.FriendName = name;
+                        TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_ADD_FRIEND_REQ);
                     }
-                    else
+                    else if(confirmResult==DialogResult.No)
                     {
-                        // If 'No', do something here.
+                        RefuseReq req=new RefuseReq(); 
+                        req.FriendName = name;
+                        req.Username= MyTools.getUserinfo().Username;
+                        TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_REFUSE_REQ);
                     }
                 };
                 label.ForeColor = Color.LightGreen;
@@ -156,7 +190,7 @@ namespace MiniQQClient
             {
                 delega1();
             }
-            
+
         }
 
 
@@ -170,10 +204,10 @@ namespace MiniQQClient
         {
             FriendForm form = new FriendForm();
             form.ShowDialog();
-            if (form.DialogResult == DialogResult.Cancel || form.DialogResult == DialogResult.OK)
+           /* if (form.DialogResult == DialogResult.Cancel || form.DialogResult == DialogResult.OK)
             {
                 resetFriendsPanel();
-            }
+            }*/
 
         }
 
