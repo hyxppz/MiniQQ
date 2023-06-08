@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using MiniQQLib;
+using System.Windows.Forms;
+
 namespace MiniQQClient
 {
     public partial class Form1 : Form
@@ -12,8 +13,11 @@ namespace MiniQQClient
         {
             InitializeComponent();
 
+            this.Text = "DD - " + MyTools.getUserinfo().Username;
             TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
+            TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
             resetFriendsPanel();
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
 
         }
 
@@ -21,6 +25,12 @@ namespace MiniQQClient
 
 
         // sizuo start
+        void RefreshfriendList(RefreshFriendListRsp rsp)
+        {
+            MyTools.setUserinfo(rsp.userinfo);
+
+            resetFriendsPanel();
+        }
         void resetFriendsPanel()
         {
             friends.ForEach(e => friendList.Controls.Remove(e));
@@ -130,8 +140,23 @@ namespace MiniQQClient
                 pictureBox.Click += waitClick;
                 label.Click += waitClick;
             }
-            friendList.Controls.Add(panel);
-            friends.Add(panel);
+            Action delega1 = () =>
+            {
+                friendList.Controls.Add(panel);
+                friends.Add(panel);
+            };
+
+            //使用异步多线程更新
+            if (this.InvokeRequired)
+            {
+                //新建一个线程，线程里面调用拉姆达表达式，拉姆达表达式里面使用异步的形式调用委托，委托里面再修改控件的父级
+                new Thread(() => this.Invoke(delega1)).Start();
+            }
+            else
+            {
+                delega1();
+            }
+            
         }
 
 

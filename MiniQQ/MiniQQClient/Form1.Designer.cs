@@ -171,7 +171,6 @@
             MinimizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "DD";
             friendList.ResumeLayout(false);
             friendList.PerformLayout();
             friendExample.ResumeLayout(false);

@@ -18,35 +18,61 @@ namespace MiniQQ
             TCPServerManager.Instance.RecRegisterReqAction = UserRegister;
 
             TCPServerManager.Instance.RecAddFriendReqAction = AddFriend;
+            TCPServerManager.Instance.RecLoginReqAction = Login;
+            
         }
 
+        public void Login(LoginReq loginReq)
+        {
+
+        }
 
         public void AddFriend(AddFriendReq addFriendReq, string ip)
         {
             AddFriendRsp addFriendRsp = new AddFriendRsp();
-            Userinfo? friend = getUserByName(addFriendReq.FriendName);
-            if (friend==null)
+            UserInfomations info = getAllUsersInfo();
+            Userinfo? friend = info.MyUserInfos.Find((u) => u.Username == addFriendReq.FriendName);
+            if (friend == null)
             {
                 addFriendRsp.ErrorMsg = "该账号不存在";
                 addFriendRsp.Result = false;
                 TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
                 return;
             }
-            UserInfomations info = getAllUsersInfo();
+          
             Userinfo? user = info.MyUserInfos.Find((u) => u.Username == addFriendReq.Username);
-            if (user==null)
+            if (user == null)
             {
                 return;
 
             }
-            FriendInfo? m = user.FriendInfos.Find(f => f.FriendName == addFriendReq.FriendName);
-            if (m!=null)
+            else
             {
-                if (m.Status==FriendStatus.NOREPLY)
+                if (user.Username == addFriendReq.FriendName)
+                {
+                    addFriendRsp.ErrorMsg = "不能添加自己为好友";
+                    addFriendRsp.Result = false;
+                    TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
+                    return;
+                }
+                if (user.FriendInfos.Find(f=>f.FriendName == addFriendReq.FriendName&& f.Status==FriendStatus.WAIT)!=null)
+                {
+                    addFriendRsp.ErrorMsg = "添加成功，可以开始对话聊天了";
+                    addFriendRsp.Result = true;
+                    // todo:推给对方刷新好友列表
+                    TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
+                    return;
+                }
+
+            }
+            FriendInfo? m = user.FriendInfos.Find(f => f.FriendName == addFriendReq.FriendName);
+            if (m != null)
+            {
+                if (m.Status == FriendStatus.NOREPLY)
                 {
                     addFriendRsp.ErrorMsg = "好友请求已发送，请耐心等待";
                     addFriendRsp.Result = false;
-                    
+              
                 }
                 else
                 {
@@ -60,18 +86,28 @@ namespace MiniQQ
             friendInfo.FriendName = friend.Username;
             friendInfo.Status = FriendStatus.NOREPLY;
             user.FriendInfos.Add(friendInfo);
+            // 朋友端显示是否同意等待状态
+            FriendInfo friendInfo1 = new FriendInfo();
+            friendInfo1.FriendName = user.Username;
+            friendInfo1.Status = FriendStatus.WAIT;
+            friend.FriendInfos.Add(friendInfo1);
             saveUsers(info);
             addFriendRsp.ErrorMsg = "添加成功,等待对方应答";
             addFriendRsp.Result = true;
-            addFriendRsp.userinfo= user;
+            addFriendRsp.userinfo = user;
+
+            RefreshFriendListRsp refreshFriendListRsp= new RefreshFriendListRsp();
+            refreshFriendListRsp.userinfo = friend;
             TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
+            //推给对方刷新好友列表
+            TCPServerManager.Instance.SendObjectByUserName(friend.Username, refreshFriendListRsp, MsgType.MSG_TYPE_REFRESH_FRIEND);
         }
 
-        public void UserRegister(RegisterReq registerReq,string ip)
+        public void UserRegister(RegisterReq registerReq, string ip)
         {
             RegisterRsp registerRsp = new RegisterRsp();
             if (
-                getUserByName(registerReq.Username)!=null
+                getUserByName(registerReq.Username) != null
                 )
             {
                 registerRsp.Result = false;
@@ -85,7 +121,7 @@ namespace MiniQQ
                 registerRsp.Result = true;
                 registerRsp.ErrorMsg = "注册成功！";
             }
-           
+
 
 
             TCPServerManager.Instance.SendObjectByIP(ip, registerRsp, MsgType.MSG_TYPE_REGISTER_RSP);
@@ -94,18 +130,18 @@ namespace MiniQQ
         public Userinfo? getUserByName(string Username)
         {
             List<Userinfo> allUsers = getAllUsers();
-            return allUsers.Find((u)=>u.Username==Username);
+            return allUsers.Find((u) => u.Username == Username);
         }
 
         public UserInfomations saveUsers(UserInfomations u)
         {
-         
+
             MyTools.Serialize2Fill("1.data", u);
             return u;
         }
 
 
-        public Userinfo saveUser(string Username,string Password)
+        public Userinfo saveUser(string Username, string Password)
         {
             Userinfo userInfo = new Userinfo();
             List<Userinfo> allUsers = getAllUsers();
@@ -134,7 +170,7 @@ namespace MiniQQ
         public void test()
         {
             UserInfomations u = new UserInfomations();
-            Userinfo u1 =new Userinfo();
+            Userinfo u1 = new Userinfo();
             u1.Username = "username";
             u1.Password = "password";
 
@@ -154,7 +190,7 @@ namespace MiniQQ
 
 
             Userinfo u2 = new Userinfo();
-            u2.Username = "username"; 
+            u2.Username = "username";
             u2.Password = "password";
 
             FriendInfo f3 = new FriendInfo();

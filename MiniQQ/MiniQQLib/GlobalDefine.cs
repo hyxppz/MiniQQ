@@ -19,6 +19,7 @@ namespace MiniQQLib
         MSG_TYPE_MSG,//聊天消息
         MSG_TYPE_QUERY_REQ,//信息查询请求
         MSG_TYPE_QUERY_RSP,//信息查询返回
+        MSG_TYPE_REFRESH_FRIEND,//聊天消息
     }
 
 
@@ -57,6 +58,14 @@ namespace MiniQQLib
     }
     [Serializable]
     public class AddFriendRsp
+    {
+        public string Username { get; set; }
+        public Userinfo userinfo { get; set; }
+        public bool Result { get; set; }
+        public string ErrorMsg { get; set; }
+    }
+    [Serializable]
+    public class RefreshFriendListRsp
     {
         public string Username { get; set; }
         public Userinfo userinfo { get; set; }

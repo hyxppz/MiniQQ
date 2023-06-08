@@ -8,6 +8,7 @@ namespace MiniQQClient
         {
 
             InitializeComponent();
+            
         }
 
         private void Loginbutton_Click(object sender, EventArgs e)
@@ -15,20 +16,27 @@ namespace MiniQQClient
             // todo登录成功
             if (true)
             {
-               this.DialogResult = DialogResult.OK;
+                Random rnd = new Random();
+               
+                this.DialogResult = DialogResult.OK;
                 Userinfo userinfo = new Userinfo();
-                userinfo.Username = "1";
+                int a = rnd.Next(3);
+                if (a>1) { userinfo.Username = "2"; } else {  userinfo.Username = "1"; }
+               
                 userinfo.Password = "1";
                 List<FriendInfo> friendInfos = new List<FriendInfo>();
                 userinfo.FriendInfos = friendInfos;
-                FriendInfo f1=new FriendInfo();
-                f1.FriendName= "榜一大哥";
+               /* FriendInfo f1 = new FriendInfo();
+                f1.FriendName = "榜一大哥";
                 FriendInfo f2 = new FriendInfo();
                 f2.FriendName = "小天才";
                 f2.FriendNickName = "大笨蛋";
                 friendInfos.Add(f1);
-                friendInfos.Add(f2);
+                friendInfos.Add(f2);*/
                 MyTools.setUserinfo(userinfo);
+                LoginReq lo=new LoginReq();
+                lo.Username= userinfo.Username;
+                TcpClientManager.Instance.SendMesg(lo, MsgType.MSG_TYPE_LOGIN_REQ);
             }
         }
 
