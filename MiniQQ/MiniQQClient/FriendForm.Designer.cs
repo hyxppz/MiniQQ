@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FriendForm));
-            textBox1 = new TextBox();
+            Username = new TextBox();
             button1 = new Button();
             SuspendLayout();
             // 
-            // textBox1
+            // Username
             // 
-            textBox1.Location = new Point(12, 105);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "请输入好友DD号/用户名";
-            textBox1.Size = new Size(157, 23);
-            textBox1.TabIndex = 0;
-            textBox1.TextAlign = HorizontalAlignment.Center;
+            Username.Location = new Point(12, 105);
+            Username.Name = "Username";
+            Username.PlaceholderText = "请输入好友DD号/用户名";
+            Username.Size = new Size(157, 23);
+            Username.TabIndex = 0;
+            Username.TextAlign = HorizontalAlignment.Center;
             // 
             // button1
             // 
@@ -51,6 +51,7 @@
             button1.TabIndex = 1;
             button1.Text = "添加";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // FriendForm
             // 
@@ -60,7 +61,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(254, 234);
             Controls.Add(button1);
-            Controls.Add(textBox1);
+            Controls.Add(Username);
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -76,7 +77,7 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox Username;
         private Button button1;
     }
 }

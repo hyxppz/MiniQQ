@@ -37,8 +37,9 @@ namespace MiniQQServer
         public Action<int, string> UpdateClient { get; set; }
 
         public Action<MiniQQLib.RegisterReq,string> RecRegisterReqAction { get; set; }
-        public Action<MiniQQLib.LoginReq> RecLoginReqAction { get; set; }
-        public Action<MiniQQLib.AddFriendReq> RecAddFriendReqAction { get; set; }
+        public Action<MiniQQLib.LoginReq,string> RecLoginReqAction { get; set; }
+        public Action<MiniQQLib.AddFriendReq,string> RecAddFriendReqAction { get; set; }
+        public Action<MiniQQLib.RefuseReq> RecRefuseReqAction { get; set; }
         public Action<MiniQQLib.ModNameReq> RecModNameReqAction { get; set; }
         public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
         public Action<MiniQQLib.QueryReq> RecQueryReqAction { get; set; }
@@ -188,14 +189,14 @@ namespace MiniQQServer
                                 case MsgType.MSG_TYPE_LOGIN_REQ:
                                     LoginReq o1 = new LoginReq();
                                     o1 = MyTools.Desrialize<LoginReq>(o1, rectstr);
-                                    RecLoginReqAction.Invoke(o1);
+                                    RecLoginReqAction.Invoke(o1,ipAddr);
                                     //TODO                                
                                     dic_UserIP[o1.Username] = ipAddr;
                                     break;
                                 case MsgType.MSG_TYPE_ADD_FRIEND_REQ:
                                     AddFriendReq o2 = new AddFriendReq();
                                     o2 = MyTools.Desrialize<AddFriendReq>(o2, rectstr);
-                                    RecAddFriendReqAction.Invoke(o2);
+                                    RecAddFriendReqAction.Invoke(o2, ipAddr);
                                     break;
                                 case MsgType.MSG_TYPE_MOD_NAME_REQ:
                                     ModNameReq o3 = new ModNameReq();
@@ -212,6 +213,11 @@ namespace MiniQQServer
                                     o5 = MyTools.Desrialize<QueryReq>(o5, rectstr);
                                     RecQueryReqAction.Invoke(o5);
                                     break;
+                                case MsgType.MSG_TYPE_REFUSE_REQ:
+                                    RefuseReq o6 = new RefuseReq();
+                                    o6 = MyTools.Desrialize<RefuseReq>(o6, rectstr);
+                                    RecRefuseReqAction.Invoke(o6);
+                                    break; 
                             }
 
 

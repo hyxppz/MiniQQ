@@ -13,12 +13,14 @@ namespace MiniQQLib
         MSG_TYPE_LOGIN_REQ,//登录请求
         MSG_TYPE_LOGIN_RSP,//登录应答
         MSG_TYPE_ADD_FRIEND_REQ,//添加好友请求
+        MSG_TYPE_REFUSE_REQ,//拒绝好友请求
         MSG_TYPE_ADD_FRIEND_RSP,//添加好友应答
         MSG_TYPE_MOD_NAME_REQ,//修改昵称请求
         MSG_TYPE_MOD_NAME_RSP,//修改昵称应答
         MSG_TYPE_MSG,//聊天消息
         MSG_TYPE_QUERY_REQ,//信息查询请求
         MSG_TYPE_QUERY_RSP,//信息查询返回
+        MSG_TYPE_REFRESH_FRIEND,//聊天消息
     }
 
 
@@ -45,7 +47,7 @@ namespace MiniQQLib
     [Serializable]
     public class LoginRsp
     {
-        public string Username { get; set; }
+        public Userinfo User { get; set; }
         public bool Result { get; set; }
         public string ErrorMsg { get; set; }
     }
@@ -56,10 +58,24 @@ namespace MiniQQLib
         public string FriendName { get; set; }
     }
     [Serializable]
-    public class AddFriendRsp
+    public class RefuseReq
     {
         public string Username { get; set; }
         public string FriendName { get; set; }
+    }
+    [Serializable]
+    public class AddFriendRsp
+    {
+        public string Username { get; set; }
+        public Userinfo userinfo { get; set; }
+        public bool Result { get; set; }
+        public string ErrorMsg { get; set; }
+    }
+    [Serializable]
+    public class RefreshFriendListRsp
+    {
+        public string Username { get; set; }
+        public Userinfo userinfo { get; set; }
         public bool Result { get; set; }
         public string ErrorMsg { get; set; }
     }
@@ -91,11 +107,22 @@ namespace MiniQQLib
     {
         public string Username { get; set; }
     }
+
+    public enum FriendStatus
+    {
+        ONLINE = 0,//在线
+        OFFLINE,//离线
+        WAIT,//请求添加好友
+        NOREPLY,//无回应
+
+    }
+
     [Serializable]
     public class FriendInfo
     {
         public string FriendName { get; set; }
         public string FriendNickName { get; set; }
+        public FriendStatus Status { get; set; }
     }
     [Serializable]
     public class QueryRsp
@@ -121,6 +148,7 @@ namespace MiniQQLib
         }
         public string Username { get; set; }
         public string Password { get; set; }
+        public FriendStatus Status { get; set; }
         public List<FriendInfo> FriendInfos { get; set; }
     }
 

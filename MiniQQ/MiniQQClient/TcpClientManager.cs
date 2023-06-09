@@ -1,10 +1,7 @@
-﻿using System.Net;
+﻿using MiniQQLib;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
-using System.Threading.Tasks;
-using MiniQQLib;
-using System.Collections;
 
 namespace MiniQQClient
 {
@@ -46,12 +43,13 @@ namespace MiniQQClient
         public Action<MiniQQLib.RegisterRsp> RecRegisterRspAction { get; set; }
         public Action<MiniQQLib.LoginRsp> RecLoginRspAction { get; set; }
         public Action<MiniQQLib.AddFriendRsp> RecAddFriendRspAction { get; set; }
+        public Action<MiniQQLib.RefreshFriendListRsp> RecRefreshfriendListRspAction { get; set; }
         public Action<MiniQQLib.ModNameRsp> RecModNameRspAction { get; set; }
         public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
         public Action<MiniQQLib.QueryRsp> RecQueryRspAction { get; set; }
 
 
-        public void  Init(string ip)
+        public void Init(string ip)
         {
             ipAddress = IPAddress.Parse(ip);
             _connectionState = ConnectionStatus.init;
@@ -80,11 +78,11 @@ namespace MiniQQClient
             catch (Exception ex)
             {
                 _connectionState = ConnectionStatus.disconnect;
-                if (ExceptionMsgAction!=null)
+                if (ExceptionMsgAction != null)
                 {
                     ExceptionMsgAction.Invoke(ex.ToString());
                 }
-                
+
             }
 
         }
@@ -92,13 +90,13 @@ namespace MiniQQClient
         public bool SendMesg(object o, MsgType msgType)
         {
             string msgContent = MyTools.Serialize<object>(o);
-            byte[] b1 = MyTools.intToBytes(msgContent.Length); 
+            byte[] b1 = MyTools.intToBytes(msgContent.Length);
             byte[] b2 = MyTools.intToBytes((int)msgType);
             byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
             Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
             Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
             Buffer.BlockCopy(b3, 0, sendBuf, 8, msgContent.Length);
-            _stream.Write(sendBuf, 0, 8+ msgContent.Length);
+            _stream.Write(sendBuf, 0, 8 + msgContent.Length);
             return true;
         }
 
@@ -114,7 +112,7 @@ namespace MiniQQClient
                         {
                             ExceptionMsgAction.Invoke("重连中");
                         }
-                      
+
                         _client = new TcpClient();
                         _client.Connect(ipAddress, 19521);
                     }
@@ -125,7 +123,7 @@ namespace MiniQQClient
                         {
                             ExceptionMsgAction.Invoke("发生错误，断开连接");
                         }
-                       
+
                         Thread.Sleep(3000);
                         continue;
                     }
@@ -137,7 +135,7 @@ namespace MiniQQClient
                     {
                         ExceptionMsgAction.Invoke("服务器已连接");
                     }
-                    
+
                 }
 
                 Thread.Sleep(1000);
@@ -158,11 +156,11 @@ namespace MiniQQClient
 
                     if (_connectionState == ConnectionStatus.connected)
                     {
-                        byte[] data = new byte[1024*1024*2];
+                        byte[] data = new byte[1024 * 1024 * 2];
                         int r1 = _stream.Read(data, 0, 4);
                         int msgTotalLength = MyTools.bytesToInt(data);
                         int r2 = _stream.Read(data, 4, 4);
-                        int msgType = MyTools.bytesToInt(data,4);
+                        int msgType = MyTools.bytesToInt(data, 4);
                         MsgType t = (MsgType)msgType;
                         int r3 = _stream.Read(data, 8, msgTotalLength);
                         //if(bytesRead == 0)
@@ -205,9 +203,14 @@ namespace MiniQQClient
                                     o5 = MyTools.Desrialize<QueryRsp>(o5, message);
                                     RecQueryRspAction.Invoke(o5);
                                     break;
+                                case MsgType.MSG_TYPE_REFRESH_FRIEND:
+                                    RefreshFriendListRsp o6 = new RefreshFriendListRsp();
+                                    o6 = MyTools.Desrialize<RefreshFriendListRsp>(o6, message);
+                                    RecRefreshfriendListRspAction.Invoke(o6);
+                                    break;
                             }
 
-                          
+
                         }
                     }
 
@@ -221,7 +224,7 @@ namespace MiniQQClient
                     {
                         ExceptionMsgAction.Invoke("发生错误，断开连接");
                     }
-                  
+
                     Thread.Sleep(3000);
                 }
             }

@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using MiniQQLib;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace MiniQQClient
 {
     public partial class Form1 : Form
     {
-
         public void ExceptionAction(string str)
         {
 
@@ -13,43 +14,81 @@ namespace MiniQQClient
         {
             InitializeComponent();
 
+            this.Text = "DD - " + MyTools.getUserinfo().Username;
             TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
-            //createFriend("榜一大哥", true);
-            //createFriend("榜二大哥", false);
-            //createFriend("张三", true);
-            //createFriend("李四", false);
-            //createFriend("李五", false);
-            //createFriend("李六", false);
-            //createFriend("刘思佐", false);
-            //createFriend("郝宇星", true);
-
-            createFriend("榜一大哥");
-            createFriend("榜二大哥", FriendStatus.OFFLINE);
-            createFriend("张三");
-            createFriend("李四", FriendStatus.OFFLINE);
-            createFriend("李五", FriendStatus.OFFLINE);
-            createFriend("李六", FriendStatus.OFFLINE);
-            createFriend("刘思佐", FriendStatus.OFFLINE);
-            createFriend("郝宇星");
-            createFriend("张学渊", FriendStatus.WAIT);
+            TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
+            TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
+            resetFriendsPanel();
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
 
         }
 
 
+        public void RecAddFriendRspAction(AddFriendRsp rsp)
+        {
+            Action delega1 = () =>
+            {
+                if (rsp.Result)
+                {
 
+                    MyTools.setUserinfo(rsp.userinfo);
+                    resetFriendsPanel();
+                    MessageBox.Show(rsp.ErrorMsg);
+                }
+                else
+                {
+                    MessageBox.Show(rsp.ErrorMsg);
+                }
+            };
+            //使用异步多线程更新
+            if (this.InvokeRequired)
+            {
+                //新建一个线程，线程里面调用拉姆达表达式，拉姆达表达式里面使用异步的形式调用委托，委托里面再修改控件的父级
+                new Thread(() => this.Invoke(delega1)).Start();
+            }
+            else
+            {
+                delega1();
+            }
+        }
 
         // sizuo start
-        public enum FriendStatus
+        void RefreshfriendList(RefreshFriendListRsp rsp)
         {
-            ONLINE = 0,//在线
-            OFFLINE,//离线
-            WAIT,//请求添加好友
+            MyTools.setUserinfo(rsp.userinfo);
 
+            resetFriendsPanel();
+        }
+        void resetFriendsPanel()
+        {
+            friends.ForEach(e => friendList.Controls.Remove(e));
+            friends = new List<Panel>();
+            Userinfo u = MyTools.getUserinfo();
+            if (u.FriendInfos.FindAll(e => e.Status != FriendStatus.NOREPLY).Count == 0)
+            {
+                nofriend.Visible = true;
+                return;
+            }
+            else
+            {
+                nofriend.Visible = false;
+            }
+
+            u.FriendInfos.ForEach(f =>
+            {
+                if (f.Status != FriendStatus.NOREPLY)
+                {
+                    createFriend(f, f.Status);
+
+                }
+
+            });
         }
         List<Panel> friends = new List<Panel>();
 
-        void createFriend(string name, FriendStatus status = FriendStatus.ONLINE)
+        void createFriend(FriendInfo friendInfo, FriendStatus status = FriendStatus.ONLINE)
         {
+            string name = friendInfo.FriendName;
             int length = friends.Count;
             Panel panel = new Panel();
             Label label = new Label();
@@ -78,7 +117,10 @@ namespace MiniQQClient
             label.Size = new Size(37, 19);
             label.TabIndex = 1;
             label.Text = name;
-
+            if (friendInfo.FriendNickName != null)
+            {
+                label.Text = friendInfo.FriendNickName + "(" + name + ")";
+            }
             // 
             // friendExample_online
             // 
@@ -110,14 +152,20 @@ namespace MiniQQClient
                 {
                     var confirmResult = MessageBox.Show("是否通过" + name + "的好友请求？",
                                    name + "请求添加您为好友",
-                                   MessageBoxButtons.YesNo);
+                                   MessageBoxButtons.YesNoCancel);
                     if (confirmResult == DialogResult.Yes)
                     {
-                        // If 'Yes', do something here.
+                        AddFriendReq req = new AddFriendReq();
+                        req.Username = MyTools.getUserinfo().Username;
+                        req.FriendName = name;
+                        TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_ADD_FRIEND_REQ);
                     }
-                    else
+                    else if(confirmResult==DialogResult.No)
                     {
-                        // If 'No', do something here.
+                        RefuseReq req=new RefuseReq(); 
+                        req.FriendName = name;
+                        req.Username= MyTools.getUserinfo().Username;
+                        TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_REFUSE_REQ);
                     }
                 };
                 label.ForeColor = Color.LightGreen;
@@ -126,8 +174,23 @@ namespace MiniQQClient
                 pictureBox.Click += waitClick;
                 label.Click += waitClick;
             }
-            friendList.Controls.Add(panel);
-            friends.Add(panel);
+            Action delega1 = () =>
+            {
+                friendList.Controls.Add(panel);
+                friends.Add(panel);
+            };
+
+            //使用异步多线程更新
+            if (this.InvokeRequired)
+            {
+                //新建一个线程，线程里面调用拉姆达表达式，拉姆达表达式里面使用异步的形式调用委托，委托里面再修改控件的父级
+                new Thread(() => this.Invoke(delega1)).Start();
+            }
+            else
+            {
+                delega1();
+            }
+
         }
 
 
@@ -137,16 +200,28 @@ namespace MiniQQClient
 
         }
 
-        private void addFriendIcon_Click(object sender, EventArgs e)
+        private void addFriend()
         {
             FriendForm form = new FriendForm();
             form.ShowDialog();
+           /* if (form.DialogResult == DialogResult.Cancel || form.DialogResult == DialogResult.OK)
+            {
+                resetFriendsPanel();
+            }*/
+
+        }
+
+        private void addFriendIcon_Click(object sender, EventArgs e)
+        {
+            addFriend();
+
+
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            FriendForm form = new FriendForm();
-            form.ShowDialog();
+            addFriend();
+
         }
 
 

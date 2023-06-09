@@ -10,7 +10,21 @@ using System.Threading.Tasks;
 namespace MiniQQLib
 {
     public class MyTools
+
     {
+
+       static Userinfo Userinfo;
+        public static void setUserinfo(Userinfo u)
+        {
+            Userinfo = u;
+        }
+
+        public static Userinfo getUserinfo()
+        {
+            return Userinfo;
+        }
+
+
         //序列化
         public static void Serialize2Fill(string fileName,object obj)
         {
@@ -25,7 +39,9 @@ namespace MiniQQLib
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(fileName, FileMode.Open);
+           
             object obj = binaryFormatter.Deserialize(fileStream);
+            fileStream.Close();
             return obj;
         }
 
