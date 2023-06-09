@@ -38,10 +38,12 @@
             addFriendIcon = new Label();
             placeholder_panel = new Panel();
             chat_panel = new Panel();
+            richTextBox1 = new RichTextBox();
             friendList.SuspendLayout();
             friendExample.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).BeginInit();
             placeholder_panel.SuspendLayout();
+            chat_panel.SuspendLayout();
             SuspendLayout();
             // 
             // friendList
@@ -148,10 +150,19 @@
             chat_panel.BackColor = Color.Transparent;
             chat_panel.BackgroundImage = Properties.Resources.dog;
             chat_panel.BackgroundImageLayout = ImageLayout.Zoom;
+            chat_panel.Controls.Add(richTextBox1);
             chat_panel.Location = new Point(0, 0);
             chat_panel.Name = "chat_panel";
             chat_panel.Size = new Size(774, 592);
             chat_panel.TabIndex = 6;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(3, 14);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(768, 397);
+            richTextBox1.TabIndex = 0;
+            richTextBox1.Text = "";
             // 
             // Form1
             // 
@@ -179,6 +190,7 @@
             friendExample.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).EndInit();
             placeholder_panel.ResumeLayout(false);
+            chat_panel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -194,5 +206,6 @@
         private Label nofriend;
         private Panel placeholder_panel;
         private Panel chat_panel;
+        private RichTextBox richTextBox1;
     }
 }

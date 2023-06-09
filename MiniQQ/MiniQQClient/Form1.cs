@@ -160,11 +160,11 @@ namespace MiniQQClient
                         req.FriendName = name;
                         TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_ADD_FRIEND_REQ);
                     }
-                    else if(confirmResult==DialogResult.No)
+                    else if (confirmResult == DialogResult.No)
                     {
-                        RefuseReq req=new RefuseReq(); 
+                        RefuseReq req = new RefuseReq();
                         req.FriendName = name;
-                        req.Username= MyTools.getUserinfo().Username;
+                        req.Username = MyTools.getUserinfo().Username;
                         TcpClientManager.Instance.SendMesg(req, MsgType.MSG_TYPE_REFUSE_REQ);
                     }
                 };
@@ -204,10 +204,10 @@ namespace MiniQQClient
         {
             FriendForm form = new FriendForm();
             form.ShowDialog();
-           /* if (form.DialogResult == DialogResult.Cancel || form.DialogResult == DialogResult.OK)
-            {
-                resetFriendsPanel();
-            }*/
+            /* if (form.DialogResult == DialogResult.Cancel || form.DialogResult == DialogResult.OK)
+             {
+                 resetFriendsPanel();
+             }*/
 
         }
 

@@ -23,18 +23,19 @@ namespace MiniQQ
 
         }
 
-        public void Refuse(RefuseReq req) {
+        public void Refuse(RefuseReq req)
+        {
             UserInfomations info = getAllUsersInfo();
             Userinfo? friend = info.MyUserInfos.Find((u) => u.Username == req.FriendName);
             Userinfo? user = info.MyUserInfos.Find((u) => u.Username == req.Username);
-            if (user!=null)
+            if (user != null)
             {
-                user.FriendInfos.Remove(user.FriendInfos.Find(f=>f.FriendName==req.FriendName));
+                user.FriendInfos.Remove(user.FriendInfos.Find(f => f.FriendName == req.FriendName));
                 RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
                 refreshFriendListRsp1.userinfo = user;
                 TCPServerManager.Instance.SendObjectByUserName(user.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
             }
-            if (friend!=null)
+            if (friend != null)
             {
                 friend.FriendInfos.Remove(friend.FriendInfos.Find(f => f.FriendName == req.Username));
                 RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
@@ -42,18 +43,18 @@ namespace MiniQQ
                 TCPServerManager.Instance.SendObjectByUserName(friend.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
             }
             saveUsers(info);
-            
+
         }
 
         //zxy
-        public void Login(LoginReq loginReq,string ip)
+        public void Login(LoginReq loginReq, string ip)
         {
             string username = loginReq.Username;
             string password = loginReq.Password;
 
 
 
-            Userinfo? userinfo = getAllUsers().Find((u) => u.Username== loginReq.Username && u.Password  ==loginReq.Password);
+            Userinfo? userinfo = getAllUsers().Find((u) => u.Username == loginReq.Username && u.Password == loginReq.Password);
 
 
             if (userinfo != null)
@@ -90,7 +91,7 @@ namespace MiniQQ
                 TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
                 return;
             }
-          
+
             Userinfo? user = info.MyUserInfos.Find((u) => u.Username == addFriendReq.Username);
             if (user == null)
             {
@@ -107,12 +108,12 @@ namespace MiniQQ
                     return;
                 }
                 FriendInfo? f0 = user.FriendInfos.Find(f => f.FriendName == addFriendReq.FriendName);
-                if (f0 != null && f0.Status==FriendStatus.WAIT)
+                if (f0 != null && f0.Status == FriendStatus.WAIT)
                 {
                     // 互相好友列表中修改状态
-                    f0.Status= friend.Status;
+                    f0.Status = friend.Status;
                     FriendInfo? f1 = friend.FriendInfos.Find(f => f.FriendName == user.Username);
-                    if (f1!=null)
+                    if (f1 != null)
                     {
                         f1.Status = user.Status;
                     }
@@ -137,7 +138,7 @@ namespace MiniQQ
                 {
                     addFriendRsp.ErrorMsg = "好友请求已发送，请耐心等待";
                     addFriendRsp.Result = false;
-              
+
                 }
                 else
                 {
@@ -161,7 +162,7 @@ namespace MiniQQ
             addFriendRsp.Result = true;
             addFriendRsp.userinfo = user;
 
-            RefreshFriendListRsp refreshFriendListRsp= new RefreshFriendListRsp();
+            RefreshFriendListRsp refreshFriendListRsp = new RefreshFriendListRsp();
             refreshFriendListRsp.userinfo = friend;
             TCPServerManager.Instance.SendObjectByIP(ip, addFriendRsp, MsgType.MSG_TYPE_ADD_FRIEND_RSP);
             //推给对方刷新好友列表
@@ -277,5 +278,7 @@ namespace MiniQQ
 
             UserInfomations newU = (UserInfomations)MyTools.DeserializeFromFile("1.data");
         }
+
+
     }
 }

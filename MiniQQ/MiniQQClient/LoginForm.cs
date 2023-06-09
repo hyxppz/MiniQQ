@@ -14,6 +14,9 @@ namespace MiniQQClient
 
         private void Loginbutton_Click(object sender, EventArgs e)
         {
+            TcpClientManager.Instance.Init("127.0.0.1");
+            TcpClientManager.Instance.StartConnect();
+
             //zxy
             string username = account.Text;
             string Password = password.Text;
