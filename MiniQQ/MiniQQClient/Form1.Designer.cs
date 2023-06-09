@@ -38,6 +38,12 @@
             addFriendIcon = new Label();
             placeholder_panel = new Panel();
             chat_panel = new Panel();
+            button3 = new Button();
+            textBox3 = new TextBox();
+            button2 = new Button();
+            textBox2 = new TextBox();
+            button1 = new Button();
+            textBox1 = new TextBox();
             richTextBox1 = new RichTextBox();
             friendList.SuspendLayout();
             friendExample.SuspendLayout();
@@ -66,7 +72,7 @@
             nofriend.ForeColor = Color.Yellow;
             nofriend.Location = new Point(8, 286);
             nofriend.Name = "nofriend";
-            nofriend.Size = new Size(164, 26);
+            nofriend.Size = new Size(162, 24);
             nofriend.TabIndex = 0;
             nofriend.Text = "还没好友？去添加";
             nofriend.Visible = false;
@@ -91,7 +97,7 @@
             friendExample_name.ForeColor = Color.White;
             friendExample_name.Location = new Point(29, 0);
             friendExample_name.Name = "friendExample_name";
-            friendExample_name.Size = new Size(37, 19);
+            friendExample_name.Size = new Size(36, 18);
             friendExample_name.TabIndex = 1;
             friendExample_name.Text = "张三";
             // 
@@ -115,7 +121,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(39, 11);
             label1.Name = "label1";
-            label1.Size = new Size(37, 19);
+            label1.Size = new Size(36, 18);
             label1.TabIndex = 0;
             label1.Text = "好友";
             // 
@@ -129,7 +135,7 @@
             addFriendIcon.ForeColor = Color.White;
             addFriendIcon.Location = new Point(164, 7);
             addFriendIcon.Name = "addFriendIcon";
-            addFriendIcon.Size = new Size(27, 27);
+            addFriendIcon.Size = new Size(27, 25);
             addFriendIcon.TabIndex = 4;
             addFriendIcon.Text = "+";
             addFriendIcon.Click += addFriendIcon_Click;
@@ -150,17 +156,76 @@
             chat_panel.BackColor = Color.Transparent;
             chat_panel.BackgroundImage = Properties.Resources.dog;
             chat_panel.BackgroundImageLayout = ImageLayout.Zoom;
+            chat_panel.Controls.Add(button3);
+            chat_panel.Controls.Add(textBox3);
+            chat_panel.Controls.Add(button2);
+            chat_panel.Controls.Add(textBox2);
+            chat_panel.Controls.Add(button1);
+            chat_panel.Controls.Add(textBox1);
             chat_panel.Controls.Add(richTextBox1);
             chat_panel.Location = new Point(0, 0);
             chat_panel.Name = "chat_panel";
             chat_panel.Size = new Size(774, 592);
             chat_panel.TabIndex = 6;
             // 
+            // button3
+            // 
+            button3.Location = new Point(606, 532);
+            button3.Name = "button3";
+            button3.Size = new Size(154, 23);
+            button3.TabIndex = 7;
+            button3.Text = "发送";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // textBox3
+            // 
+            textBox3.ForeColor = SystemColors.WindowText;
+            textBox3.Location = new Point(3, 358);
+            textBox3.Multiline = true;
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(768, 168);
+            textBox3.TabIndex = 6;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(606, 329);
+            button2.Name = "button2";
+            button2.Size = new Size(154, 23);
+            button2.TabIndex = 5;
+            button2.Text = "清空";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(3, 566);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(190, 23);
+            textBox2.TabIndex = 4;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(269, 18);
+            button1.Name = "button1";
+            button1.Size = new Size(183, 23);
+            button1.TabIndex = 3;
+            button1.Text = "连接服务";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(36, 18);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(190, 23);
+            textBox1.TabIndex = 2;
+            textBox1.Text = "127.0.0.1";
+            // 
             // richTextBox1
             // 
-            richTextBox1.Location = new Point(3, 14);
+            richTextBox1.Location = new Point(3, 58);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(768, 397);
+            richTextBox1.Size = new Size(768, 263);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
             // 
@@ -170,7 +235,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.login_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1094, 632);
+            ClientSize = new Size(1094, 633);
             Controls.Add(placeholder_panel);
             Controls.Add(addFriendIcon);
             Controls.Add(friendExample);
@@ -191,6 +256,7 @@
             ((System.ComponentModel.ISupportInitialize)friendExample_online).EndInit();
             placeholder_panel.ResumeLayout(false);
             chat_panel.ResumeLayout(false);
+            chat_panel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -207,5 +273,11 @@
         private Panel placeholder_panel;
         private Panel chat_panel;
         private RichTextBox richTextBox1;
+        private TextBox textBox2;
+        private Button button1;
+        private TextBox textBox1;
+        private Button button2;
+        private Button button3;
+        private TextBox textBox3;
     }
 }
