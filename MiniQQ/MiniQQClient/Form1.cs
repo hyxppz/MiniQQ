@@ -107,7 +107,12 @@ namespace MiniQQClient
         }
         void resetFriendsPanel()
         {
-            friends.ForEach(e => friendList.Controls.Remove(e));
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate { resetFriendsPanel(); }));
+                return;
+            }
+              friends.ForEach(e => friendList.Controls.Remove(e));
             friends = new List<Panel>();
             Userinfo u = MyTools.getUserinfo();
             if (u.FriendInfos.FindAll(e => e.Status != FriendStatus.NOREPLY).Count == 0)

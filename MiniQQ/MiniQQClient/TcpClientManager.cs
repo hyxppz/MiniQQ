@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace MiniQQClient
 {
@@ -32,6 +33,8 @@ namespace MiniQQClient
         private TcpClient _client = null;
         private NetworkStream _stream = null;
         byte[] sendBuf = new byte[1024 * 1024 * 2];
+        string userName = "";
+        string password = "";
 
         enum ConnectionStatus
         {
@@ -95,6 +98,11 @@ namespace MiniQQClient
         {
             try
             {
+                if(msgType == MsgType.MSG_TYPE_LOGIN_REQ)
+                {
+                    userName = ((LoginReq)o).Username;
+                    password = ((LoginReq)o).Password;
+                }
                 string msgContent = MyTools.Serialize<object>(o);
                 byte[] b1 = MyTools.intToBytes(msgContent.Length);
                 byte[] b2 = MyTools.intToBytes((int)msgType);
@@ -107,7 +115,6 @@ namespace MiniQQClient
             catch (Exception ex)
             {
 
-                throw;
             }
 
             return true;
@@ -136,13 +143,24 @@ namespace MiniQQClient
                         {
                             ExceptionMsgAction.Invoke("发生错误，断开连接");
                         }
+                       
 
                         Thread.Sleep(3000);
                         continue;
                     }
-                    _connectionState = ConnectionStatus.connected;
+                   
                     _stream = _client.GetStream();
+                    _connectionState = ConnectionStatus.connected;
                     // 登录
+                    if (userName!="")
+                    {
+                        LoginReq loginRequest = new LoginReq();
+                        loginRequest.Username = userName;
+                        loginRequest.Password = password;
+
+                        // 使用 TcpClientManager 发送登录请求
+                        SendMesg(loginRequest, MsgType.MSG_TYPE_LOGIN_REQ);
+                    }
 
 
                     if (ExceptionMsgAction != null)

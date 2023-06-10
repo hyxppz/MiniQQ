@@ -78,7 +78,7 @@ namespace MiniQQClient
             else
             {
                 // 登录失败，显示错误消息
-                MessageBox.Show(loginResponse.ErrorMsg) ;
+                MessageBox.Show(loginResponse.ErrorMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) ;
 
             }
         }
