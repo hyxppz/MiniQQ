@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             Loginbutton = new Button();
             Registerbutton = new Button();
             titleIcon = new PictureBox();
@@ -205,12 +206,13 @@
             Controls.Add(Registerbutton);
             Controls.Add(Loginbutton);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(429, 327);
             MinimumSize = new Size(429, 327);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MiniQQ登录";
+            Text = "DD - 登录";
             Load += LoginForm_Load;
             Click += LoginForm_Click;
             ((System.ComponentModel.ISupportInitialize)titleIcon).EndInit();
