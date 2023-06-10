@@ -22,6 +22,7 @@ namespace MiniQQClient
             TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
             TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
             TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
+            TcpClientManager.Instance.RecModNameRspAction = RecModNameRspAction;
             TcpClientManager.Instance.RecMSGMSGAction = RecMsg;
             resetFriendsPanel();
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
@@ -66,6 +67,37 @@ namespace MiniQQClient
             }
         }
 
+        void RecModNameRspAction(ModNameRsp modnamersp)
+        {
+
+
+            Action delega1 = () =>
+            {
+                if (modnamersp.Result)
+                {
+
+                    resetFriendsPanel();
+                    MessageBox.Show(modnamersp.ErrorMsg);
+                }
+                else
+                {
+                    MessageBox.Show(modnamersp.ErrorMsg);
+                }
+            };
+
+            //使用异步多线程更新
+            if (this.InvokeRequired)
+            {
+                //新建一个线程，线程里面调用拉姆达表达式，拉姆达表达式里面使用异步的形式调用委托，委托里面再修改控件的父级
+                new Thread(() => this.Invoke(delega1)).Start();
+            }
+            else
+            {
+                delega1();
+            }
+
+        }
+
         // sizuo start
         void RefreshfriendList(RefreshFriendListRsp rsp)
         {
@@ -104,7 +136,11 @@ namespace MiniQQClient
         void createFriend(FriendInfo friendInfo, bool isFirst, FriendStatus status = FriendStatus.ONLINE)
         {
             string name = friendInfo.FriendName;
+<<<<<<< HEAD
             RichTextBox rtx = GetTextBoxByName(name);//创建控件
+=======
+            string nickname = friendInfo.FriendNickName;
+>>>>>>> 5fecc8fd00d0f2ef38522d01b58a099dbcb3b1fe
             int length = friends.Count;
             Panel panel = new Panel();
             Label label = new Label();
@@ -155,6 +191,9 @@ namespace MiniQQClient
                 panel.Click += openChat;
                 pictureBox.Click += openChat;
                 label.Click += openChat;
+                panel.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
+                pictureBox.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
+                label.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
             }
             else if (status == FriendStatus.OFFLINE)
             {
@@ -162,6 +201,9 @@ namespace MiniQQClient
                 panel.Click += openChat;
                 pictureBox.Click += openChat;
                 label.Click += openChat;
+                panel.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
+                pictureBox.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
+                label.DoubleClick += (sender, e) => changeName(sender, e, name, nickname);
             }
             else if (status == FriendStatus.WAIT)
             {
@@ -261,6 +303,22 @@ namespace MiniQQClient
                  resetFriendsPanel();
              }*/
 
+        }
+
+        private void changeName(object sender, EventArgs e, string name, string nickname)
+        {
+            ChangeNickName form = new ChangeNickName();
+            form.old_name.Text = name.Trim();
+            if (nickname == "" || nickname == null)
+            {
+                form.textBox1.Text = "还未设置过备注，请设置！";
+            }
+            else
+            {
+                form.textBox1.Text = nickname.Trim();
+            }
+
+            form.ShowDialog();
         }
 
         private void addFriendIcon_Click(object sender, EventArgs e)
