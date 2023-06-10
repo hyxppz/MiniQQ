@@ -39,6 +39,7 @@ namespace MiniQQ
                 TCPServerManager.Instance.RecRefuseReqAction = Refuse;
                 TCPServerManager.Instance.ExceptionMsgAction = ShowLog;
                 TCPServerManager.Instance.RecMSGMSGAction = RecvMsg;
+                TCPServerManager.Instance.RecModNameReqAction = ChangeName;
 
                 ShowLog("服务启动成功...");
             }
@@ -245,6 +246,61 @@ namespace MiniQQ
             u.MyUserInfos.AddRange(allUsers);
             MyTools.Serialize2Fill("1.data", u);
             return userInfo;
+        }
+
+        public void ChangeName(ModNameReq modnamereq, string ip)
+        {
+            ModNameRsp modNameRsp = new ModNameRsp();
+            UserInfomations info = getAllUsersInfo();
+            Userinfo user = info.MyUserInfos.Find((u) => u.Username == modnamereq.Username);
+            if (user != null)
+            {
+                FriendInfo change_friend = user.FriendInfos.Find((u) => u.FriendName == modnamereq.FriendName);
+                if (change_friend != null)
+                {
+                    if (change_friend.Status == FriendStatus.WAIT || change_friend.Status == FriendStatus.NOREPLY)
+                    {
+                        modNameRsp.Result = false;
+                        modNameRsp.ErrorMsg = "修改失败，好友未添加！";
+                        saveUsers(info);
+                        TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+                    }
+                    else
+                    {
+                        change_friend.FriendNickName = modnamereq.FriendNickName;
+                        saveUsers(info);
+
+                        modNameRsp.Result = true;
+                        modNameRsp.ErrorMsg = "修改昵称成功";
+                        modNameRsp.FriendName = modnamereq.FriendName;
+                        modNameRsp.Username = modnamereq.Username;
+                        modNameRsp.FriendNickName = modnamereq.FriendNickName;
+
+                        RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
+                        refreshFriendListRsp1.userinfo = user;
+                        TCPServerManager.Instance.SendObjectByUserName(user.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
+                        TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+
+                    }
+
+                }
+                else
+                {
+                    modNameRsp.Result = false;
+                    modNameRsp.ErrorMsg = "修改失败！";
+                    saveUsers(info);
+                    TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+                }
+
+            }
+            else
+            {
+                modNameRsp.Result = false;
+                modNameRsp.ErrorMsg = "修改失败！";
+                saveUsers(info);
+                TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+
+            }
         }
 
         public UserInfomations getAllUsersInfo()

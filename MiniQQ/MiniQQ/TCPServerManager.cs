@@ -40,7 +40,7 @@ namespace MiniQQServer
         public Action<MiniQQLib.LoginReq,string> RecLoginReqAction { get; set; }
         public Action<MiniQQLib.AddFriendReq,string> RecAddFriendReqAction { get; set; }
         public Action<MiniQQLib.RefuseReq> RecRefuseReqAction { get; set; }
-        public Action<MiniQQLib.ModNameReq> RecModNameReqAction { get; set; }
+        public Action<MiniQQLib.ModNameReq,string> RecModNameReqAction { get; set; }
         public Action<MiniQQLib.MSGMSG> RecMSGMSGAction { get; set; }
         public Action<MiniQQLib.QueryReq> RecQueryReqAction { get; set; }
 
@@ -201,7 +201,7 @@ namespace MiniQQServer
                                 case MsgType.MSG_TYPE_MOD_NAME_REQ:
                                     ModNameReq o3 = new ModNameReq();
                                     o3 = MyTools.Desrialize<ModNameReq>(o3, rectstr);
-                                    RecModNameReqAction.Invoke(o3);
+                                    RecModNameReqAction.Invoke(o3, ipAddr);
                                     break;
                                 case MsgType.MSG_TYPE_MSG:
                                     MSGMSG o4 = new MSGMSG();
