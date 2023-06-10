@@ -39,6 +39,7 @@
             textBox1 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
+            label2 = new Label();
             friendList.SuspendLayout();
             friendExample.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)friendExample_online).BeginInit();
@@ -139,6 +140,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(828, 156);
             textBox1.TabIndex = 5;
+            textBox1.KeyDown += textBox1_KeyDown;
             // 
             // button1
             // 
@@ -152,10 +154,19 @@
             // 
             // panel1
             // 
-            panel1.Location = new Point(236, 22);
+            panel1.Location = new Point(236, 44);
             panel1.Name = "panel1";
-            panel1.Size = new Size(828, 373);
+            panel1.Size = new Size(828, 351);
             panel1.TabIndex = 7;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(236, 24);
+            label2.Name = "label2";
+            label2.Size = new Size(43, 17);
+            label2.TabIndex = 0;
+            label2.Text = "label2";
             // 
             // Form1
             // 
@@ -164,6 +175,7 @@
             BackgroundImage = Properties.Resources.login_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1094, 631);
+            Controls.Add(label2);
             Controls.Add(panel1);
             Controls.Add(button1);
             Controls.Add(textBox1);
@@ -179,6 +191,7 @@
             MinimumSize = new Size(1110, 670);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
+            KeyDown += Form1_KeyDown;
             friendList.ResumeLayout(false);
             friendList.PerformLayout();
             friendExample.ResumeLayout(false);
@@ -200,5 +213,6 @@
         private TextBox textBox1;
         private Button button1;
         private Panel panel1;
+        private Label label2;
     }
 }

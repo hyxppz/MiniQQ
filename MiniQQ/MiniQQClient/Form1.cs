@@ -31,11 +31,11 @@ namespace MiniQQClient
         public void RecMsg(MSGMSG msg)
         {
 
-                RichTextBox rtx=GetTextBoxByName( msg.SrcUsername);
-                rtx.Invoke(new EventHandler(delegate
-                {
-                    rtx.AppendText(msg.Msg + "\r\n");
-                }));
+            RichTextBox rtx = GetTextBoxByName(msg.SrcUsername);
+            rtx.Invoke(new EventHandler(delegate
+            {
+                rtx.AppendText("用户 " + msg.SrcUsername + " 对你说：" + msg.Msg + "\r\n");
+            }));
         }
 
         public void RecAddFriendRspAction(AddFriendRsp rsp)
@@ -87,20 +87,21 @@ namespace MiniQQClient
             {
                 nofriend.Visible = false;
             }
+            bool isFirst = true;
 
             u.FriendInfos.ForEach(f =>
             {
                 if (f.Status != FriendStatus.NOREPLY)
                 {
-                    createFriend(f, f.Status);
-
+                    createFriend(f, isFirst, f.Status);
+                    isFirst = false;
                 }
 
             });
         }
         List<Panel> friends = new List<Panel>();
 
-        void createFriend(FriendInfo friendInfo, FriendStatus status = FriendStatus.ONLINE)
+        void createFriend(FriendInfo friendInfo, bool isFirst, FriendStatus status = FriendStatus.ONLINE)
         {
             string name = friendInfo.FriendName;
             int length = friends.Count;
@@ -206,6 +207,10 @@ namespace MiniQQClient
                 delega1();
             }
 
+            if (isFirst)
+            {
+                openChat(panel, null);
+            }
         }
 
 
@@ -219,7 +224,7 @@ namespace MiniQQClient
             if (i1)
             {
                 controlName = ((Label)sender).Name;
-              
+
             }
             if (i2)
             {
@@ -231,10 +236,11 @@ namespace MiniQQClient
             }
             if (controlName.Contains("_"))
             {
-               
+
                 string[] strArray = controlName.Split('_');
                 string userName = strArray[0];
                 CurrentFriendUser = userName;
+                label2.Text = "与用户 " + userName + " 聊天中";
                 RichTextBox r = GetTextBoxByName(userName);
                 if (panel1.Controls.Count > 0)
                 {
@@ -299,44 +305,22 @@ namespace MiniQQClient
             {
                 RichTextBox rtx = new RichTextBox();
                 rtx.Location = new Point(0, 0);
-                rtx.Size = new Size(828, 373);
+                rtx.Size = new Size(1060, 390);
                 rtx.TabIndex = 0;
                 rtx.Text = "";
+                rtx.ReadOnly = true;
                 DicTextBox.Add(userName, rtx);
                 return rtx;
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //string replacedValue = textBox3.Text.Replace("\n\r", "").Replace("\n\t", "");
-                // if (replacedValue != string.Empty)
-                //{
-                //richTextBox1.AppendText(replacedValue + "\r\n");
-                //int start = richTextBox1.Text.LastIndexOf(replacedValue);
-                //richTextBox1.Select(start, replacedValue.Length);
-                //richTextBox1.SelectionColor = Color.YellowGreen;
-                //richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
-                //richTextBox1.Select(richTextBox1.Text.Length, 0);
-                //richTextBox1.ScrollToCaret();
 
-
-                // textBox3.Clear();
-                // }
-
-            }
-            catch (Exception)
-            {
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                string replacedValue = textBox1.Text.Replace("\n\r", "").Replace("\n\t", "");
+                string replacedValue = textBox1.Text.Replace("\n\r", "").Replace("\n\t", "").Replace("\r\n", "");
                 if (panel1.Controls.Count > 0)
                 {
                     RichTextBox r = panel1.Controls[0] as RichTextBox;
@@ -349,7 +333,7 @@ namespace MiniQQClient
                         r.SelectionAlignment = HorizontalAlignment.Right;
                         r.Select(r.Text.Length, 0);
                         r.ScrollToCaret();
-                        MSGMSG msg  = new MSGMSG();
+                        MSGMSG msg = new MSGMSG();
                         msg.Msg = replacedValue;
                         msg.SrcUsername = MyTools.getUserinfo().Username;
                         msg.DesUsername = CurrentFriendUser;
@@ -358,13 +342,30 @@ namespace MiniQQClient
                         textBox1.Clear();
                     }
                 }
-                
+
 
             }
             catch (Exception)
             {
             }
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)//判断回车键
+            {
+                button1_Click(sender, e);
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)//判断回车键
+            {
+                button1_Click(sender, e);
+            }
+        }
+
 
 
 
