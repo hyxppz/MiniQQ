@@ -97,6 +97,7 @@ namespace MiniQQ
                 loginResponse.User = userinfo;
                 //loginResponse.FriendInfos = friendInfos;
                 TCPServerManager.Instance.SendObjectByIP(ip, loginResponse, MsgType.MSG_TYPE_LOGIN_RSP);
+                ShowLog($"用户 {username} 登录成功...");
             }
             else
             {
@@ -105,6 +106,7 @@ namespace MiniQQ
                 loginResponse.Result = false;
                 loginResponse.ErrorMsg = "用户密码不正确或用户不存在";
                 TCPServerManager.Instance.SendObjectByIP(ip, loginResponse, MsgType.MSG_TYPE_LOGIN_RSP);
+                ShowLog($"用户 {username} 登录失败...");
             }
         }
 
