@@ -11,6 +11,10 @@ namespace MiniQQClient
 
         private TcpClientManager() { }
 
+        public TcpClientManager(string text)
+        {
+        }
+
         public static TcpClientManager Instance
         {
             get

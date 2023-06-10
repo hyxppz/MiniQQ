@@ -10,6 +10,8 @@ namespace MiniQQClient
         {
 
         }
+
+        TcpClientManager m_TcpClient;
         public Form1()
         {
             InitializeComponent();
@@ -223,6 +225,79 @@ namespace MiniQQClient
             addFriend();
 
         }
+
+
+        public void ShowException(string str)
+        {
+
+            textBox2.Invoke(new EventHandler(delegate
+            {
+                textBox2.Text = str;
+            }));
+        }
+
+
+        public void ShowRecvMsg(string str)
+        {
+            richTextBox1.Invoke(new EventHandler(delegate
+            {
+                richTextBox1.AppendText(str + "\r\n");
+            }));
+
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            m_TcpClient = new TcpClientManager(textBox1.Text);
+            m_TcpClient.ExceptionMsgAction = ShowException;
+            m_TcpClient.StartConnect();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string replacedValue = textBox3.Text.Replace("\n\r", "").Replace("\n\t", "");
+                if (replacedValue != string.Empty)
+                {
+                    richTextBox1.AppendText(replacedValue + "\r\n");
+                    int start = richTextBox1.Text.LastIndexOf(replacedValue);
+                    richTextBox1.Select(start, replacedValue.Length);
+                    richTextBox1.SelectionColor = Color.YellowGreen;
+                    richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+                    richTextBox1.Select(richTextBox1.Text.Length, 0);
+                    richTextBox1.ScrollToCaret();
+
+                    m_TcpClient.SendMsg(replacedValue);
+                    textBox3.Clear();
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
