@@ -13,7 +13,9 @@ namespace MiniQQClient
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-         
+            TcpClientManager.Instance.Init("127.0.0.1");
+            TcpClientManager.Instance.StartConnect();
+
             LoginForm loginForm = new LoginForm();
             if (loginForm.ShowDialog() == DialogResult.OK)
             {

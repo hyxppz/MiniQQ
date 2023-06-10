@@ -72,24 +72,24 @@ namespace MiniQQClient
         /// <summary>
         /// 发送
         /// </summary>
-        public void SendMsg(string msg)
-        {
-            try
-            {
-                byte[] data = Encoding.UTF8.GetBytes(msg);
-                _stream.Write(data, 0, data.Length);
-            }
-            catch (Exception ex)
-            {
-                _connectionState = ConnectionStatus.disconnect;
-                if (ExceptionMsgAction != null)
-                {
-                    ExceptionMsgAction.Invoke(ex.ToString());
-                }
+        //public void SendMsg(string msg)
+        //{
+        //    try
+        //    {
+        //        byte[] data = Encoding.UTF8.GetBytes(msg);
+        //        _stream.Write(data, 0, data.Length);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _connectionState = ConnectionStatus.disconnect;
+        //        if (ExceptionMsgAction != null)
+        //        {
+        //            ExceptionMsgAction.Invoke(ex.ToString());
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
         public bool SendMesg(object o, MsgType msgType)
         {

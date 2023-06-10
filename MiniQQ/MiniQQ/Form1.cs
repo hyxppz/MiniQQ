@@ -38,6 +38,7 @@ namespace MiniQQ
                 TCPServerManager.Instance.RecLoginReqAction = Login;
                 TCPServerManager.Instance.RecRefuseReqAction = Refuse;
                 TCPServerManager.Instance.ExceptionMsgAction = ShowLog;
+                TCPServerManager.Instance.RecMSGMSGAction = RecvMsg;
 
                 ShowLog("服务启动成功...");
             }
@@ -257,6 +258,13 @@ namespace MiniQQ
             UserInfomations info = getAllUsersInfo();
             return info.MyUserInfos;
         }
+
+        public void  RecvMsg(MSGMSG msg)
+        {
+            ShowLog("用户 "+msg.SrcUsername +"向用户 "+msg.DesUsername + "发送 " + msg.Msg);
+            TCPServerManager.Instance.SendObjectByUserName(msg.DesUsername,msg,MsgType.MSG_TYPE_MSG);
+        }
+
 
         public void test()
         {

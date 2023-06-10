@@ -1,17 +1,19 @@
 using MiniQQLib;
+using System.Net.Sockets;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace MiniQQClient
 {
     public partial class Form1 : Form
     {
+        public string CurrentFriendUser;
         public void ExceptionAction(string str)
         {
 
         }
 
-        TcpClientManager m_TcpClient;
         public Form1()
         {
             InitializeComponent();
@@ -20,11 +22,21 @@ namespace MiniQQClient
             TcpClientManager.Instance.ExceptionMsgAction = ExceptionAction;
             TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
             TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
+            TcpClientManager.Instance.RecMSGMSGAction = RecMsg;
             resetFriendsPanel();
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
 
         }
 
+        public void RecMsg(MSGMSG msg)
+        {
+
+                RichTextBox rtx=GetTextBoxByName( msg.SrcUsername);
+                rtx.Invoke(new EventHandler(delegate
+                {
+                    rtx.AppendText(msg.Msg + "\r\n");
+                }));
+        }
 
         public void RecAddFriendRspAction(AddFriendRsp rsp)
         {
@@ -134,6 +146,7 @@ namespace MiniQQClient
             pictureBox.TabIndex = 2;
             pictureBox.TabStop = false;
 
+
             if (status == FriendStatus.ONLINE)
             {
                 pictureBox.Image = Properties.Resources.dog;
@@ -199,6 +212,36 @@ namespace MiniQQClient
 
         private void openChat(object? sender, EventArgs e)
         {
+            var i1 = sender is Label;
+            var i2 = sender is Panel;
+            var i3 = sender is PictureBox;
+            string controlName = "";
+            if (i1)
+            {
+                controlName = ((Label)sender).Name;
+              
+            }
+            if (i2)
+            {
+                controlName = ((Panel)sender).Name;
+            }
+            if (i3)
+            {
+                controlName = ((PictureBox)sender).Name;
+            }
+            if (controlName.Contains("_"))
+            {
+               
+                string[] strArray = controlName.Split('_');
+                string userName = strArray[0];
+                CurrentFriendUser = userName;
+                RichTextBox r = GetTextBoxByName(userName);
+                if (panel1.Controls.Count > 0)
+                {
+                    panel1.Controls.RemoveAt(0);
+                }
+                panel1.Controls.Add(r);
+            }
 
         }
 
@@ -227,57 +270,95 @@ namespace MiniQQClient
         }
 
 
-        public void ShowException(string str)
-        {
-
-            textBox2.Invoke(new EventHandler(delegate
-            {
-                textBox2.Text = str;
-            }));
-        }
 
 
         public void ShowRecvMsg(string str)
         {
-            richTextBox1.Invoke(new EventHandler(delegate
-            {
-                richTextBox1.AppendText(str + "\r\n");
-            }));
+            //richTextBox1.Invoke(new EventHandler(delegate
+            //{
+            //    richTextBox1.AppendText(str + "\r\n");
+            //}));
 
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            button1.Enabled = false;
-            m_TcpClient = new TcpClientManager(textBox1.Text);
-            m_TcpClient.ExceptionMsgAction = ShowException;
-            m_TcpClient.StartConnect();
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            richTextBox1.Clear();
+            //richTextBox1.Clear();
+        }
+
+        public Dictionary<string, RichTextBox> DicTextBox = new Dictionary<string, RichTextBox>();
+        private RichTextBox GetTextBoxByName(string userName)
+        {
+            if (DicTextBox.Keys.Contains(userName))
+            {
+                return DicTextBox[userName];
+            }
+            else
+            {
+                RichTextBox rtx = new RichTextBox();
+                rtx.Location = new Point(0, 0);
+                rtx.Size = new Size(828, 373);
+                rtx.TabIndex = 0;
+                rtx.Text = "";
+                DicTextBox.Add(userName, rtx);
+                return rtx;
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                string replacedValue = textBox3.Text.Replace("\n\r", "").Replace("\n\t", "");
-                if (replacedValue != string.Empty)
-                {
-                    richTextBox1.AppendText(replacedValue + "\r\n");
-                    int start = richTextBox1.Text.LastIndexOf(replacedValue);
-                    richTextBox1.Select(start, replacedValue.Length);
-                    richTextBox1.SelectionColor = Color.YellowGreen;
-                    richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
-                    richTextBox1.Select(richTextBox1.Text.Length, 0);
-                    richTextBox1.ScrollToCaret();
+                //string replacedValue = textBox3.Text.Replace("\n\r", "").Replace("\n\t", "");
+                // if (replacedValue != string.Empty)
+                //{
+                //richTextBox1.AppendText(replacedValue + "\r\n");
+                //int start = richTextBox1.Text.LastIndexOf(replacedValue);
+                //richTextBox1.Select(start, replacedValue.Length);
+                //richTextBox1.SelectionColor = Color.YellowGreen;
+                //richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+                //richTextBox1.Select(richTextBox1.Text.Length, 0);
+                //richTextBox1.ScrollToCaret();
 
-                    m_TcpClient.SendMsg(replacedValue);
-                    textBox3.Clear();
+
+                // textBox3.Clear();
+                // }
+
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string replacedValue = textBox1.Text.Replace("\n\r", "").Replace("\n\t", "");
+                if (panel1.Controls.Count > 0)
+                {
+                    RichTextBox r = panel1.Controls[0] as RichTextBox;
+                    if (replacedValue != string.Empty)
+                    {
+                        r.AppendText(replacedValue + "\r\n");
+                        int start = r.Text.LastIndexOf(replacedValue);
+                        r.Select(start, replacedValue.Length);
+                        r.SelectionColor = Color.YellowGreen;
+                        r.SelectionAlignment = HorizontalAlignment.Right;
+                        r.Select(r.Text.Length, 0);
+                        r.ScrollToCaret();
+                        MSGMSG msg  = new MSGMSG();
+                        msg.Msg = replacedValue;
+                        msg.SrcUsername = MyTools.getUserinfo().Username;
+                        msg.DesUsername = CurrentFriendUser;
+
+                        TcpClientManager.Instance.SendMesg(msg, MsgType.MSG_TYPE_MSG);
+                        textBox1.Clear();
+                    }
                 }
+                
 
             }
             catch (Exception)
