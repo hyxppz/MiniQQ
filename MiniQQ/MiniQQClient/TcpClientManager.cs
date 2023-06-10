@@ -93,14 +93,23 @@ namespace MiniQQClient
 
         public bool SendMesg(object o, MsgType msgType)
         {
-            string msgContent = MyTools.Serialize<object>(o);
-            byte[] b1 = MyTools.intToBytes(msgContent.Length);
-            byte[] b2 = MyTools.intToBytes((int)msgType);
-            byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
-            Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
-            Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
-            Buffer.BlockCopy(b3, 0, sendBuf, 8, msgContent.Length);
-            _stream.Write(sendBuf, 0, 8 + msgContent.Length);
+            try
+            {
+                string msgContent = MyTools.Serialize<object>(o);
+                byte[] b1 = MyTools.intToBytes(msgContent.Length);
+                byte[] b2 = MyTools.intToBytes((int)msgType);
+                byte[] b3 = Encoding.UTF8.GetBytes(msgContent);
+                Buffer.BlockCopy(b1, 0, sendBuf, 0, 4);
+                Buffer.BlockCopy(b2, 0, sendBuf, 4, 4);
+                Buffer.BlockCopy(b3, 0, sendBuf, 8, msgContent.Length);
+                _stream.Write(sendBuf, 0, 8 + msgContent.Length);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
             return true;
         }
 
@@ -133,6 +142,7 @@ namespace MiniQQClient
                     }
                     _connectionState = ConnectionStatus.connected;
                     _stream = _client.GetStream();
+                    // 登录
 
 
                     if (ExceptionMsgAction != null)

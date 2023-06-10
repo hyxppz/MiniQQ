@@ -136,11 +136,11 @@ namespace MiniQQClient
         void createFriend(FriendInfo friendInfo, bool isFirst, FriendStatus status = FriendStatus.ONLINE)
         {
             string name = friendInfo.FriendName;
-<<<<<<< HEAD
+
             RichTextBox rtx = GetTextBoxByName(name);//´´½¨¿Ø¼þ
-=======
+
             string nickname = friendInfo.FriendNickName;
->>>>>>> 5fecc8fd00d0f2ef38522d01b58a099dbcb3b1fe
+
             int length = friends.Count;
             Panel panel = new Panel();
             Label label = new Label();
