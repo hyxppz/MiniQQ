@@ -188,9 +188,9 @@ namespace MiniQQClient
             // friendExample
             // 
             panel.BackColor = Color.Transparent;
-            panel.Location = new Point(3, 17 + 25 * (length));
+            panel.Location = new Point(5, 20 + 40 * (length));
             panel.Name = name + "_friend";
-            panel.Size = new Size(149, 22);
+            panel.Size = new Size(350, 40);
             panel.TabIndex = 3;
             // 
             // friendExample_name
@@ -199,9 +199,9 @@ namespace MiniQQClient
             label.BackColor = Color.Transparent;
             label.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             label.ForeColor = Color.White;
-            label.Location = new Point(29, 0);
+            label.Location = new Point(40, 0);
             label.Name = name + "_name";
-            label.Size = new Size(37, 19);
+            label.Size = new Size(300, 40);
             label.TabIndex = 1;
             label.Text = name;
             if (friendInfo.FriendNickName != null)
@@ -212,9 +212,9 @@ namespace MiniQQClient
             // friendExample_online
             // 
             pictureBox.BackColor = Color.Transparent;
-            pictureBox.Location = new Point(0, 0);
+            pictureBox.Location = new Point(5, 5);
             pictureBox.Name = name + "_status";
-            pictureBox.Size = new Size(23, 21);
+            pictureBox.Size = new Size(30, 30);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.TabIndex = 2;
             pictureBox.TabStop = false;
