@@ -104,6 +104,7 @@ namespace MiniQQClient
         void createFriend(FriendInfo friendInfo, bool isFirst, FriendStatus status = FriendStatus.ONLINE)
         {
             string name = friendInfo.FriendName;
+            RichTextBox rtx = GetTextBoxByName(name);//´´½¨¿Ø¼þ
             int length = friends.Count;
             Panel panel = new Panel();
             Label label = new Label();

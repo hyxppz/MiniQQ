@@ -77,10 +77,12 @@ namespace MiniQQ
         {
             string username = loginReq.Username;
             string password = loginReq.Password;
+            Userinfo? userinfo = null;
+            if (getAllUsers()!=null)
+            {
+                userinfo = getAllUsers().Find((u) => u.Username == loginReq.Username && u.Password == loginReq.Password);
+            }
 
-
-
-            Userinfo? userinfo = getAllUsers().Find((u) => u.Username == loginReq.Username && u.Password == loginReq.Password);
 
 
             if (userinfo != null)
@@ -100,7 +102,7 @@ namespace MiniQQ
                 // 发送失败
                 LoginRsp loginResponse = new LoginRsp();
                 loginResponse.Result = false;
-                loginResponse.ErrorMsg = "用户密码不正确";
+                loginResponse.ErrorMsg = "用户密码不正确或用户不存在";
                 TCPServerManager.Instance.SendObjectByIP(ip, loginResponse, MsgType.MSG_TYPE_LOGIN_RSP);
             }
         }
@@ -221,8 +223,22 @@ namespace MiniQQ
 
         public Userinfo? getUserByName(string Username)
         {
-            List<Userinfo> allUsers = getAllUsers();
-            return allUsers.Find((u) => u.Username == Username);
+            try
+            {
+                List<Userinfo> allUsers = getAllUsers();
+                if(allUsers!=null)
+                {
+                    return allUsers.Find((u) => u.Username == Username);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex) { }
+            return null;
+          
         }
 
         public UserInfomations saveUsers(UserInfomations u)
@@ -237,6 +253,10 @@ namespace MiniQQ
         {
             Userinfo userInfo = new Userinfo();
             List<Userinfo> allUsers = getAllUsers();
+            if(allUsers==null) 
+            {
+                allUsers = new List<Userinfo> ();
+            }
             userInfo.Username = Username;
             userInfo.Password = Password;
             userInfo.FriendInfos = new List<FriendInfo>();
@@ -249,14 +269,32 @@ namespace MiniQQ
 
         public UserInfomations getAllUsersInfo()
         {
-            UserInfomations info = (UserInfomations)MyTools.DeserializeFromFile("1.data");
-            return info;
+            try
+            {
+                UserInfomations info = (UserInfomations)MyTools.DeserializeFromFile("1.data");
+                return info;
+            }
+            catch (Exception ex)
+            {
+
+              
+            }
+            return null; 
         }
 
         public List<Userinfo> getAllUsers()
         {
             UserInfomations info = getAllUsersInfo();
-            return info.MyUserInfos;
+            if (info == null)
+            {
+                return null;
+
+            }
+            else
+            {
+                return info.MyUserInfos;
+            }
+            
         }
 
         public void  RecvMsg(MSGMSG msg)
