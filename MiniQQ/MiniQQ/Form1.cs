@@ -5,21 +5,46 @@ namespace MiniQQ
 {
     public partial class Form1 : Form
     {
+        public void ShowLog(string log)
+        {
+            textBox1.Invoke(new EventHandler(delegate
+            {
+                textBox1.Text += log + "\r\n";
+            }));
+        }
         public Form1()
         {
             InitializeComponent();
-            test();
+            //test();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                ShowLog(ex.ToString());
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TCPServerManager.Instance.OpenServer(19521);
-            button1.Enabled = false;
-            TCPServerManager.Instance.RecRegisterReqAction = UserRegister;
-            TCPServerManager.Instance.RecAddFriendReqAction = AddFriend;
-            TCPServerManager.Instance.RecLoginReqAction = Login;
-            TCPServerManager.Instance.RecRefuseReqAction = Refuse;
+            try
+            {
+                ShowLog("启动服务...");
+                TCPServerManager.Instance.OpenServer(19521);
+                button1.Enabled = false;
+                TCPServerManager.Instance.RecRegisterReqAction = UserRegister;
+                TCPServerManager.Instance.RecAddFriendReqAction = AddFriend;
+                TCPServerManager.Instance.RecLoginReqAction = Login;
+                TCPServerManager.Instance.RecRefuseReqAction = Refuse;
+                TCPServerManager.Instance.ExceptionMsgAction = ShowLog;
 
+                ShowLog("服务启动成功...");
+            }
+            catch (Exception ex)
+            {
+                ShowLog(ex.ToString());
+            }
 
         }
 
