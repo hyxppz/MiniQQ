@@ -14,7 +14,7 @@ namespace MiniQQClient
 
         private void Loginbutton_Click(object sender, EventArgs e)
         {
-           
+
 
             //zxy
             string username = account.Text;
@@ -68,17 +68,17 @@ namespace MiniQQClient
             if (loginResponse.Result)
             {
                 // 登录成功，加载用户信息并转到聊天界面
-                
+
                 MyTools.setUserinfo(loginResponse.User);
                 this.DialogResult = DialogResult.OK;
 
                 // 隐藏登录窗口，打开聊天窗口
-                
+
             }
             else
             {
                 // 登录失败，显示错误消息
-                MessageBox.Show(loginResponse.ErrorMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification) ;
+                MessageBox.Show(loginResponse.ErrorMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 
             }
         }
