@@ -8,12 +8,12 @@ namespace MiniQQClient
         {
             if (rsp.Result)
             {
-                MessageBox.Show(rsp.ErrorMsg);
+                MessageBox.Show(rsp.ErrorMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
                 this.DialogResult = DialogResult.OK;
             }
             else
             {
-                MessageBox.Show(rsp.ErrorMsg);
+                MessageBox.Show(rsp.ErrorMsg, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
             }
         }
         public UserRegister()

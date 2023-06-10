@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic.Logging;
 using MiniQQLib;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace MiniQQClient
 
         }
 
+        System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
         public Form1()
         {
             InitializeComponent();
@@ -23,20 +25,48 @@ namespace MiniQQClient
             TcpClientManager.Instance.RecRefreshfriendListRspAction = RefreshfriendList;
             TcpClientManager.Instance.RecAddFriendRspAction = RecAddFriendRspAction;
             TcpClientManager.Instance.RecModNameRspAction = RecModNameRspAction;
-            TcpClientManager.Instance.RecMSGMSGAction = RecMsg;
-            resetFriendsPanel();
+            TcpClientManager.Instance.RecMSGMSGAction = UpdateUI;
+            myDelegateUI = new MyDelegateUI(RecMsg);//绑定委托
+          
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;//设置该属性 为false
+        
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+            timer1.Tick += new EventHandler(timer1EventProcessor);//添加事件
+        }
 
+        public void timer1EventProcessor(object source, EventArgs e)
+        {
+            resetFriendsPanel();
+            timer1.Stop();
+        }
+
+        public delegate void MyDelegateUI(MSGMSG msg); //定义委托类型
+        MyDelegateUI myDelegateUI; //声明委托对象
+
+        public void UpdateUI(MSGMSG msg)
+        {
+            RichTextBox rtx = GetTextBoxByName(msg.SrcUsername);
+            rtx.AppendText("用户 " + msg.SrcUsername + " 对你说：" + msg.Msg + "\r\n");
         }
 
         public void RecMsg(MSGMSG msg)
         {
-
-            RichTextBox rtx = GetTextBoxByName(msg.SrcUsername);
-            rtx.Invoke(new EventHandler(delegate
+            try
             {
-                rtx.AppendText("用户 " + msg.SrcUsername + " 对你说：" + msg.Msg + "\r\n");
-            }));
+                this.Invoke(myDelegateUI,msg); //richTextBox1.AppendText("TEST line \r");
+                Application.DoEvents();
+
+               
+            
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+           
         }
 
         public void RecAddFriendRspAction(AddFriendRsp rsp)
@@ -255,7 +285,7 @@ namespace MiniQQClient
                 delega1();
             }
 
-            if (isFirst)
+            if (true)
             {
                 openChat(panel, null);
             }
@@ -290,6 +320,16 @@ namespace MiniQQClient
                 CurrentFriendUser = userName;
                 label2.Text = "与用户 " + userName + " 聊天中";
                 RichTextBox r = GetTextBoxByName(userName);
+
+                //panel1.Invoke(new EventHandler(delegate
+                //{
+                //    if (panel1.Controls.Count > 0)
+                //    {
+                //        panel1.Controls.RemoveAt(0);
+                //    }
+                //    panel1.Controls.Add(r);
+                //}));
+
                 if (panel1.Controls.Count > 0)
                 {
                     panel1.Controls.RemoveAt(0);
