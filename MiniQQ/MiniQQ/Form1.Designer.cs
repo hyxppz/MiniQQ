@@ -52,6 +52,7 @@
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(546, 321);
             textBox1.TabIndex = 1;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // groupBox1
             // 

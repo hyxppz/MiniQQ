@@ -409,7 +409,7 @@ namespace MiniQQClient
             {
                 RichTextBox rtx = new RichTextBox();
                 rtx.Location = new Point(0, 0);
-                rtx.Size = new Size(1060, 390);
+                rtx.Size = new Size(panel1.Width-1, 390);
                 rtx.TabIndex = 0;
                 rtx.Text = "";
                 rtx.ReadOnly = true;

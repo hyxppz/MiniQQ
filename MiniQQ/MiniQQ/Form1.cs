@@ -79,7 +79,7 @@ namespace MiniQQ
             string username = loginReq.Username;
             string password = loginReq.Password;
             Userinfo? userinfo = null;
-            if (getAllUsers()!=null)
+            if (getAllUsers() != null)
             {
                 userinfo = getAllUsers().Find((u) => u.Username == loginReq.Username && u.Password == loginReq.Password);
             }
@@ -229,7 +229,7 @@ namespace MiniQQ
             try
             {
                 List<Userinfo> allUsers = getAllUsers();
-                if(allUsers!=null)
+                if (allUsers != null)
                 {
                     return allUsers.Find((u) => u.Username == Username);
                 }
@@ -241,7 +241,7 @@ namespace MiniQQ
             }
             catch (Exception ex) { }
             return null;
-          
+
         }
 
         public UserInfomations saveUsers(UserInfomations u)
@@ -256,9 +256,9 @@ namespace MiniQQ
         {
             Userinfo userInfo = new Userinfo();
             List<Userinfo> allUsers = getAllUsers();
-            if(allUsers==null) 
+            if (allUsers == null)
             {
-                allUsers = new List<Userinfo> ();
+                allUsers = new List<Userinfo>();
             }
             userInfo.Username = Username;
             userInfo.Password = Password;
@@ -335,9 +335,9 @@ namespace MiniQQ
             catch (Exception ex)
             {
 
-              
+
             }
-            return null; 
+            return null;
         }
 
         public List<Userinfo> getAllUsers()
@@ -352,13 +352,13 @@ namespace MiniQQ
             {
                 return info.MyUserInfos;
             }
-            
+
         }
 
-        public void  RecvMsg(MSGMSG msg)
+        public void RecvMsg(MSGMSG msg)
         {
-            ShowLog("用户 "+msg.SrcUsername +"向用户 "+msg.DesUsername + "发送 " + msg.Msg);
-            TCPServerManager.Instance.SendObjectByUserName(msg.DesUsername,msg,MsgType.MSG_TYPE_MSG);
+            ShowLog("用户 " + msg.SrcUsername + "向用户 " + msg.DesUsername + "发送 " + msg.Msg);
+            TCPServerManager.Instance.SendObjectByUserName(msg.DesUsername, msg, MsgType.MSG_TYPE_MSG);
         }
 
 
@@ -408,6 +408,13 @@ namespace MiniQQ
             UserInfomations newU = (UserInfomations)MyTools.DeserializeFromFile("1.data");
         }
 
-
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Length > 0)           //防止手动清空时，为0，后面textBox1.Text.Length - 1时出错。
+            {
+                textBox1.SelectionStart = textBox1.Text.Length - 1;
+                textBox1.ScrollToCaret();//将控件内容滚动到当前插入符号位置
+            }
+        }
     }
 }
