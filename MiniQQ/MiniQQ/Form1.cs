@@ -1,5 +1,6 @@
 using MiniQQLib;
 using MiniQQServer;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace MiniQQ
 {
@@ -289,19 +290,29 @@ namespace MiniQQ
                     }
                     else
                     {
-                        change_friend.FriendNickName = modnamereq.FriendNickName;
-                        saveUsers(info);
+                        if (change_friend.FriendNickName == modnamereq.FriendNickName)
+                        {
+                            ShowLog($"用户 {user.Username} 修改好友 {change_friend.FriendName} 的昵称失败，新昵称与原昵称相同 ...");
 
-                        modNameRsp.Result = true;
-                        modNameRsp.ErrorMsg = "修改昵称成功";
-                        modNameRsp.FriendName = modnamereq.FriendName;
-                        modNameRsp.Username = modnamereq.Username;
-                        modNameRsp.FriendNickName = modnamereq.FriendNickName;
+                        }
+                        else
+                        {
+                            change_friend.FriendNickName = modnamereq.FriendNickName;
+                            saveUsers(info);
 
-                        RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
-                        refreshFriendListRsp1.userinfo = user;
-                        TCPServerManager.Instance.SendObjectByUserName(user.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
-                        TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+                            modNameRsp.Result = true;
+                            modNameRsp.ErrorMsg = "修改昵称成功";
+                            ShowLog($"用户 {modnamereq.Username} 已成功将好友 {modnamereq.FriendName} 的昵称修改为 {modnamereq.FriendNickName} ...");
+                            modNameRsp.FriendName = modnamereq.FriendName;
+                            modNameRsp.Username = modnamereq.Username;
+                            modNameRsp.FriendNickName = modnamereq.FriendNickName;
+
+                            RefreshFriendListRsp refreshFriendListRsp1 = new RefreshFriendListRsp();
+                            refreshFriendListRsp1.userinfo = user;
+                            TCPServerManager.Instance.SendObjectByUserName(user.Username, refreshFriendListRsp1, MsgType.MSG_TYPE_REFRESH_FRIEND);
+                            TCPServerManager.Instance.SendObjectByIP(ip, modNameRsp, MsgType.MSG_TYPE_MOD_NAME_RSP);
+
+                        }
 
                     }
 
